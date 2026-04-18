@@ -1,0 +1,26 @@
+import { Locator, expect } from '@playwright/test';
+
+// dropdown.helper.ts
+export async function selectDropdownOption(
+    triggerBtn: Locator,
+    optionName: string,
+): Promise<void> {
+  // waitFor не покривається конфігом — явний timeout потрібен
+  await triggerBtn.page()
+      .locator('[role="status"]')
+      .waitFor({ state: 'hidden', timeout: 10000 });
+
+  await expect(triggerBtn).toBeVisible(); // використовує expect.timeout з конфігу
+  await triggerBtn.click();               // використовує actionTimeout з конфігу
+
+  const menuId = await triggerBtn.getAttribute('aria-controls');
+  const option = triggerBtn.page()
+      .locator(`#${menuId}`)
+      .getByRole('menuitemradio', { name: optionName, exact: true });
+
+  await expect(option).toBeVisible();
+  await option.click();
+
+  await expect(triggerBtn).not.toHaveAttribute('aria-expanded', 'true');
+  await expect(triggerBtn).toContainText(optionName);
+}
