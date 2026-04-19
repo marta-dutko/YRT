@@ -1,4 +1,4 @@
-import {expect, Locator, Page} from '@playwright/test';
+import { Locator, Page} from '@playwright/test';
 import {selectDropdownOption} from "../../helpers/dropdown.helper";
 import {NewUser} from "../../data/enrollTestData";
 export class AdditionalDetailsPage {

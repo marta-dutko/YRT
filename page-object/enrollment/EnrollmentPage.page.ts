@@ -4,15 +4,15 @@ import {expect} from "@playwright/test"
 export class EnrollmentPage {
     private readonly page: Page
     private readonly nextBtn: Locator
-    private readonly previosBtn: Locator
-    private readonly logInAsDiferentUserBtn: Locator
+    private readonly previousBtn: Locator
+    private readonly logInAsDifferentUserBtn: Locator
     private readonly stepTitle: (stepName: string) => Locator
 
     constructor(page: Page) {
         this.page = page
         this.nextBtn = page.getByRole('button', {name: 'Next Step'})
-        this.previosBtn = page.getByRole('button', {name: 'Previous Step'})
-        this.logInAsDiferentUserBtn = page.getByRole('button', {name: 'Log in as a different user'})
+        this.previousBtn = page.getByRole('button', {name: 'Previous Step'})
+        this.logInAsDifferentUserBtn = page.getByRole('button', {name: 'Log in as a different user'})
         this.stepTitle = (stepName: string) => page.getByRole('heading', {name: stepName})
     }
 
@@ -35,12 +35,12 @@ export class EnrollmentPage {
 
     // Click previous btn
     async clickPrevious(): Promise<void> {
-        await this.safeClick(this.previosBtn)
+        await this.safeClick(this.previousBtn)
     }
 
     // Click LogIn As A Different User btn
     async clickLogInAsDifferentUser(): Promise<void> {
-        await this.safeClick(this.logInAsDiferentUserBtn)
+        await this.safeClick(this.logInAsDifferentUserBtn)
     }
 
     // Function for stability
