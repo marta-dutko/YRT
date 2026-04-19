@@ -1,6 +1,6 @@
 import {expect, Locator, Page} from "@playwright/test";
 import {BasePage} from "./BasePage.page";
-import {CourseSearchData, NothingFoundData} from "../data/courseSearchData";
+import {CourseSearchData} from "../data/courseSearchData";
 
 export class CourseSearchPage extends BasePage {
     protected readonly page: Page
@@ -10,15 +10,10 @@ export class CourseSearchPage extends BasePage {
     private readonly startDateInput: Locator
     private readonly endDateInput: Locator
     private readonly findCourseBtn: Locator
-
-
     // Results area
     private readonly itemsFoundCounter: Locator
     private readonly nothingFoundHeading: Locator
     private readonly searchHeading: Locator
-    // private readonly previousMonth: Locator
-
-
     constructor(page: Page) {
         super(page)
         this.page = page
@@ -31,11 +26,9 @@ export class CourseSearchPage extends BasePage {
         this.itemsFoundCounter = page.locator('text=/\\d+ items? found/i');
         this.nothingFoundHeading = page.getByText('Nothing found');
         this.searchHeading = page.getByRole('heading', {name: 'Search your Course'});
-
-
     }
 
-    // ─── Actions ─
+    // Actions
     async fillCourseName(courseData:CourseSearchData): Promise<void> {
         await this.courseNameInput.fill(courseData.courseName)
     }
@@ -43,78 +36,48 @@ export class CourseSearchPage extends BasePage {
     async selectIndustry(courseData:CourseSearchData): Promise<void> {
         await this.industryDropdown.click();
         const menuId = await this.industryDropdown.getAttribute('aria-controls');
-        // menuId = "home-course-industry-menu"
-
         const option = this.page
             .locator(`#${menuId}`)  // шукаємо всередині div#home-course-industry-menu
             .getByRole('menuitemcheckbox', {name: courseData.courseIndustry, exact: true});
-
-        await option.click(); // ← спочатку клікаємо опцію
-
-        await this.industryDropdown.click(); // ← потім закриваємо dropdown
-
-        await expect(this.industryDropdown).toContainText(courseData.courseIndustry); // ← потім перевіряємо
+        await option.click();
+        await this.industryDropdown.click();
+        await expect(this.industryDropdown).toContainText(courseData.courseIndustry);
     }
 
-    // ========
     async navigateToMonth(courseData:CourseSearchData):Promise<void> {
-        while (!(await this.page.locator('.MuiPickersCalendarHeader-label').innerText()).includes(courseData.startDate.startMonth)) {
+        while (!(await this.page.locator('.MuiPickersCalendarHeader-label').innerText()).includes(courseData.startDate.month)) {
             await this.page.getByRole('button', { name: 'Next month' }).click()
             await this.page.waitForTimeout(100)
         }
     }
-    // =====
 
     async fillStartDate(courseData:CourseSearchData): Promise<void> {
         await this.startDateInput.click()
-
-        // Перемикаємо на вибір року
         await this.page.getByRole('button', { name: /calendar view is open, switch/i }).click()
-
-        // Вибираємо рік
-        await this.page.getByRole('radio', { name: courseData.startDate.startYear }).click()
-
-        // Навігуємо до потрібного місяця
+        await this.page.getByRole('radio', { name: courseData.startDate.year }).click()
         await  this.navigateToMonth(courseData)
-
-        // Клікаємо на день
-        await this.page.getByRole('gridcell', { name: courseData.startDate.startDay, exact: true }).first().click()
+        await this.page.getByRole('gridcell', { name: courseData.startDate.day, exact: true }).first().click()
     }
 
     async fillEndDate(courseData:CourseSearchData): Promise<void> {
         await this.endDateInput.click()
-
-        // Перемикаємо на вибір року
         await this.page.getByRole('button', { name: /calendar view is open, switch/i }).click()
-
-        // Вибираємо рік
-        await this.page.getByRole('radio', { name: courseData.endDate.startYear }).click()
-
-        // Навігуємо до потрібного місяця
+        await this.page.getByRole('radio', { name: courseData.endDate.year }).click()
         await  this.navigateToMonth(courseData)
-
-        // Клікаємо на день
-        await this.page.getByRole('gridcell', { name: courseData.endDate.startDay, exact: true }).first().click()
+        await this.page.getByRole('gridcell', { name: courseData.endDate.day, exact: true }).first().click()
     }
 
     async clickFindACourse(): Promise<void> {
         await this.findCourseBtn.click();
     }
 
-    // ─── Assertions ───
-
+    // Assertions
     async expectToBeOnSearchResultsPage(): Promise<void> {
-        // waitForURL чекає поки адресний рядок відповідає регекспу
-        // Це надійніше ніж просто waitForLoadState — редірект може бути повільним
         await this.page.waitForURL(/\/courses\?searchMode=true/);
     }
 
     async expectSearchPanelVisible(): Promise<void> {
         await expect(this.searchHeading).toBeVisible();
-    }
-
-    async expectItemsFoundVisible(): Promise<void> {
-        await expect(this.itemsFoundCounter).toBeVisible();
     }
 
     async expectItemsCount(itemCount:number): Promise<void> {
@@ -123,9 +86,9 @@ export class CourseSearchPage extends BasePage {
         expect(parseInt(text)).toBe(itemCount)
     }
 
-    async expectNothingFound(data:NothingFoundData): Promise<void> {
-        // const itemsCount=data.itemsCount
+    async expectNothingFound(): Promise<void> {
+        const zeroNumber:number= 0
         await expect(this.nothingFoundHeading).toBeVisible()
-        await this.expectItemsCount(data.itemsCount)
+        await this.expectItemsCount(zeroNumber)
     }
 }

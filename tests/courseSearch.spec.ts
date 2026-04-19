@@ -1,9 +1,9 @@
 import {test} from "@playwright/test";
 import {CourseSearchPage} from "../page-object/CourseSearchPage.page";
-import {courseSearchInValidData, courseSearchValidData, nothingFound} from "../data/courseSearchData";
+import {courseSearchInValidData, courseSearchValidData} from "../data/courseSearchData";
 
 const baseUrl: string = 'https://yrt-app-staging.vercel.app/'
-// ─── Suite 1: Empty search from homepage ────
+//  Suite 1: Empty search from homepage
 test('Empty search redirects to courses with searchMode=true', async ({page}) => {
     const courseSearchPage = new CourseSearchPage(page)
     await test.step('Navigate to homepage', async () => {
@@ -18,7 +18,7 @@ test('Empty search redirects to courses with searchMode=true', async ({page}) =>
     })
 })
 
-// ─── Suite 2: Search by course name ────────
+// Suite 2: Search by course name
 test('Search by course name ', async ({page}) => {
     const courseSearchPage = new CourseSearchPage(page)
     await test.step('Navigate to homepage', async () => {
@@ -35,8 +35,7 @@ test('Search by course name ', async ({page}) => {
     })
 })
 
-// ─── Suite 3: Search by industry
-
+// Suite 3: Search by industry
     test('Search by industry', async ({page})=>{
         const courseSearchPage = new CourseSearchPage(page)
         await test.step('Navigate to homepage', async () => {
@@ -53,7 +52,7 @@ test('Search by course name ', async ({page}) => {
         })
     })
 
-// ─── Suite 4: Search by dates
+// Suite 4: Search by dates
     test('Search by dates', async ({page})=>{
         const courseSearchPage = new CourseSearchPage(page)
         await test.step('Navigate to homepage', async () => {
@@ -71,8 +70,7 @@ test('Search by course name ', async ({page}) => {
         })
     })
 
-// ─── Suite 5: Combined search (all filters) ──
-
+// Suite 5: Combined search (all filters)
 test('Combined search (all filters)', async ({page})=>{
     const courseSearchPage = new CourseSearchPage(page)
     await test.step('Navigate to homepage', async () => {
@@ -91,7 +89,7 @@ test('Combined search (all filters)', async ({page})=>{
         await courseSearchPage.expectItemsCount(courseSearchValidData.itemsCount)
     })
 })
-// ─── Suite 7: Nothing found state via URL ──────
+// Suite 7: Nothing found state via URL
 test('Nothing found state ', async ({page}) => {
     const courseSearchPage = new CourseSearchPage(page)
     await test.step('Navigate to homepage', async () => {
@@ -107,9 +105,6 @@ test('Nothing found state ', async ({page}) => {
     await test.step('Nothing found, correct UI when 0 results', async ()=>{
         await courseSearchPage.expectToBeOnSearchResultsPage()
         await courseSearchPage.expectSearchPanelVisible()
-        await courseSearchPage.expectNothingFound(nothingFound)
+        await courseSearchPage.expectNothingFound()
     })
-
-
-
 })

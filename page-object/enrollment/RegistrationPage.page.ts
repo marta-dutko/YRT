@@ -1,6 +1,5 @@
 import { Locator, Page } from "@playwright/test"
-import { NewUser } from "../../data/testData"
-
+import { NewUser } from "../../data/enrollTestData"
 
 export class RegistrationPage {
   private readonly page:Page
@@ -24,26 +23,5 @@ export class RegistrationPage {
     }
     async submitRegistration():Promise<void> {
         await this.registerBtn.click()
-        // await this.page.pause()
     }
 }
-
-
-// ===========
-// export class RegistrationPage {
-//     constructor(page) {
-//         this.page = page
-//         this.givenName = page.getByRole('textbox', { name: 'Given name' })
-//         this.lastName = page.getByRole('textbox', { name: 'Last name' })
-//         this.email = page.getByRole('textbox', { name: 'Email' })
-//         this.registerBtn = page.getByRole('button', { name: 'Register' })
-//     }
-//     async fillRegistrationForm(userData) {
-//         await this.givenName.fill(userData.givenName)
-//         await this.lastName.fill(userData.lastName)
-//         await this.email.fill(userData.email)
-//     }
-//     async submitRegistration() {
-//         await this.registerBtn.click()
-//     }
-// }

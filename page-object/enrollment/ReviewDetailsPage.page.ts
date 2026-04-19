@@ -1,6 +1,6 @@
 import {expect, Locator, Page} from "@playwright/test";
 import {CourseData} from "../../data/courseData";
-import {NewUser} from "../../data/testData";
+import {NewUser} from "../../data/enrollTestData";
 
 export class ReviewDetailsPage {
     private readonly page: Page
@@ -13,7 +13,6 @@ export class ReviewDetailsPage {
     private readonly discountCodeBtn: Locator
     private readonly goToPaymentBtn: Locator
     private readonly discountSuccessMessage: Locator
-    // private readonly discountedPrice: Locator
 
     constructor(page: Page) {
         this.page = page

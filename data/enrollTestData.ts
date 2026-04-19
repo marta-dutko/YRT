@@ -1,10 +1,5 @@
 import {faker} from "@faker-js/faker"
-
-export interface DayData {
-    year: string,
-    month: string,
-    day: string
-}
+import {DayData} from "./interfaces";
 
 // For forms object
 export interface ContactForm {
@@ -25,14 +20,14 @@ export interface NewUser {
     preferredName: string,
     middleName: string,
     dayData: DayData,
-    // usi: string,
+    usi:string,
     organisation: string,
     phoneNumber: string,
     position: string,
     emergencyContactName: string,
     emergencyContactRelationship: string,
     stateOption: string,
-    contryOption: string,
+    countryOption: string,
     buildingName: string,
     flatName: string,
     streetNumber: string,
@@ -75,9 +70,7 @@ export const newUser: NewUser = {
         month: String(faker.number.int({min: 1, max: 12})),
         day: String(faker.number.int({min: 1, max: 28})),
     },
-    // ========!!!!!!
-    // usi:process.env.USI!,
-    // ============!!!!!!!!
+    usi:process.env.USI!,
     // Contact Details
     organisation: faker.company.name(),
     phoneNumber: faker.string.numeric(10),
@@ -86,7 +79,7 @@ export const newUser: NewUser = {
     emergencyContactRelationship: faker.helpers.arrayElement(['Colleague', 'Friend', 'Parent', 'Sibling']),
     // Address
     stateOption: faker.helpers.arrayElement(['NSW', 'VIC', 'QLD']),
-    contryOption: faker.helpers.arrayElement(['Fiji', 'Australia', 'Palau']),
+    countryOption: faker.helpers.arrayElement(['Fiji', 'Australia', 'Palau']),
     buildingName: faker.company.name(),
     flatName: `Unit ${faker.number.int({min: 1, max: 50})}`,
     streetNumber: String(faker.number.int({min: 1, max: 999})),
@@ -123,48 +116,3 @@ export const newUser: NewUser = {
         'Not Employed - Not Seeking Employment'
     ]),
 }
-
-// For forms object
-export const contactFormData: ContactForm = {
-    fullNameField: faker.person.fullName(),
-    organisationField: faker.string.alpha(5),
-    // Need change email
-    emailField: 'marta.dutko@techmagic.co',
-    // =====!!!!!!!!!!
-    phoneNumberField: faker.string.numeric(10),
-    messageField: faker.string.alpha(10)
-}
-
-// url contact us form
-export const contactFormUrls:ContactFormUrls[]=[
-    {name:'home-page', url:'https://yrt-app-staging.vercel.app/'},
-    {name:'course-page', url:'https://yrt-app-staging.vercel.app/courses/76602'},
-    {name:'for-students-page', url:'https://yrt-app-staging.vercel.app/for-students'},
-    {name:'for-business-page', url:'https://yrt-app-staging.vercel.app/for-business'},
-    {name:'training-trailer', url:'https://yrt-app-staging.vercel.app/training-trailer'},
-    {name:'about-us-page', url:'https://yrt-app-staging.vercel.app/about-us'},
-    {name:'contact-ua-page', url:'https://yrt-app-staging.vercel.app/contact-us'},
-    {name:'location-NSW-page', url:'https://yrt-app-staging.vercel.app/contact-us/new-south-wales'},
-    {name:'location-WA-page', url:'https://yrt-app-staging.vercel.app/contact-us/western-australia'},
-    {name:'location-VIC-page', url:'https://yrt-app-staging.vercel.app/contact-us/victoria'},
-    {name:'location-QUE-page', url:'https://yrt-app-staging.vercel.app/contact-us/queensland'},
-    {name:'resources-page', url:'https://yrt-app-staging.vercel.app/resources/unique-student-identifier'},
-    {name:'resources-NSW-page', url:'https://yrt-app-staging.vercel.app/resources/smart-skilled-nsw'},
-    {name:'resources-training-WA-page', url:'https://yrt-app-staging.vercel.app/resources/construction-training-fund-wa'},
-    {name:'resources-jobs-WA-page', url:'https://yrt-app-staging.vercel.app/resources/jobs-and-skills-wa'},
-]
-
-// // Data for all Contacts form
-// export const contactForms: ContactForm[] = [
-//     {
-//         fullNameField: faker.person.fullName(),
-//         organisationField: faker.company.name(),
-//         // Need change email
-//         emailField: 'marta.dutko@techmagic.co',
-//         // =====!!!!!!!!!!
-//         phoneNumberField: faker.string.numeric(10),
-//         messageField: faker.string.alpha(10)
-//     }
-// ]
-
-

@@ -1,6 +1,6 @@
 import {test} from '@playwright/test';
 import {SendMessage} from '../page-object/SendMessage.page';
-import {contactFormData} from "../data/testData";
+import {contactFormData} from "../data/formTestData";
 import {HomePage} from "../page-object/HomePage.page";
 
 test('Form submission', async ({page}) => {
@@ -15,6 +15,5 @@ test('Form submission', async ({page}) => {
     await test.step('Verify success message', async () => {
         await sendMessage.checkSuccessMessage()
     });
-
 });
 

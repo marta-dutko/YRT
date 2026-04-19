@@ -1,5 +1,5 @@
 import {expect, Locator, Page} from "@playwright/test";
-import {NewUser} from "../../data/testData";
+import {NewUser} from "../../data/enrollTestData";
 
 export class UploadsPage {
     private readonly page: Page
@@ -21,21 +21,6 @@ export class UploadsPage {
         await expect(this.passportSection.getByText('Uploading file')).toBeHidden({ timeout: 30000 })
         await expect(this.passportSection.getByRole('heading', { name: 'File added' })).toBeVisible({ timeout: 15000 })
     }
-
-    // async uploadIdentityDocuments(uploadData: NewUser): Promise<void> {
-    //     await this.driverLicenceSection.locator('input[type="file"]').setInputFiles(uploadData.licencePath)
-    //     // ✅ чекаємо підтвердження що файл з'явився в UI
-    //     await expect(this.driverLicenceSection.getByRole('heading', { name: 'File added' })).toBeVisible()
-    //
-    //     await this.passportSection.locator('input[type="file"]').setInputFiles(uploadData.passportPath)
-    //     // ✅ чекаємо підтвердження що файл з'явився в UI
-    //     await expect(this.passportSection.getByRole('heading', { name: 'File added' })).toBeVisible()
-    // }
-
-    // async uploadIdentityDocuments(uploadData:NewUser):Promise<void> {
-    //     await this.driverLicenceSection.locator('input[type="file"]').setInputFiles(uploadData.licencePath);
-    //     await this.passportSection.locator('input[type="file"]').setInputFiles(uploadData.passportPath)
-    // }
 }
 
 

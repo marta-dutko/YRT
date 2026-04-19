@@ -3,7 +3,7 @@ import {HomePage} from '../page-object/HomePage.page';
 import {AllCoursesPage} from '../page-object/AllCoursesPage.page';
 import {CoursePage} from '../page-object/CoursePage.page';
 // TestData
-import {newUser} from '../data/testData';
+import {newUser} from '../data/enrollTestData';
 // CourseData
 import {courseData} from "../data/courseData";
 // Payment
@@ -17,7 +17,7 @@ import {ContactDetailsPage} from "../page-object/enrollment/ContactDetailsPage.p
 import {AddressPage} from "../page-object/enrollment/AddressPage.page";
 import {NationalityPage} from "../page-object/enrollment/NationalityPage.page";
 import {SchoolingPage} from "../page-object/enrollment/SchoolingPage.page";
-import {AditionalDetailsPage} from "../page-object/enrollment/AditionalDetailsPage.page";
+import {AdditionalDetailsPage} from "../page-object/enrollment/AditionalDetailsPage.page";
 import {UploadsPage} from "../page-object/enrollment/UploadsPage.page";
 import {ReviewDetailsPage} from "../page-object/enrollment/ReviewDetailsPage.page";
 import {PaymentPage} from "../page-object/enrollment/PaymentPage.page";
@@ -31,11 +31,11 @@ test('Book a course', async ({page}) => {
     const enrollmentPage = new EnrollmentPage(page)
     const registrationPage = new RegistrationPage(page)
     const personalDetailsPage = new PersonalDetailsPage(page)
-    const contactDitailPage = new ContactDetailsPage(page)
+    const contactDetailPage = new ContactDetailsPage(page)
     const addressPage = new AddressPage(page)
     const nationalityPage = new NationalityPage(page)
     const schoolingPage = new SchoolingPage(page)
-    const aditionalDetailsPage = new AditionalDetailsPage(page)
+    const additionalDetailsPage = new AdditionalDetailsPage(page)
     const uploadsPage = new UploadsPage(page)
     const reviewDetailsPage = new ReviewDetailsPage(page)
     const paymentPage = new PaymentPage(page)
@@ -61,7 +61,7 @@ test('Book a course', async ({page}) => {
     })
     await test.step('Contact Details', async () => {
         await enrollmentPage.expectStepToBeVisible('Contact Details')
-        await contactDitailPage.fillContactDetailsForm(newUser)
+        await contactDetailPage.fillContactDetailsForm(newUser)
         await enrollmentPage.clickNext()
     })
     await test.step('Address', async () => {
@@ -81,7 +81,7 @@ test('Book a course', async ({page}) => {
     })
     await test.step('Additional details', async () => {
         await enrollmentPage.expectStepToBeVisible('Study Reason')
-        await aditionalDetailsPage.fillAditionalDetailsForm(newUser)
+        await additionalDetailsPage.fillAdditionalForm(newUser)
         await enrollmentPage.clickNext()
     })
     await test.step('Upload', async () => {
@@ -100,5 +100,4 @@ test('Book a course', async ({page}) => {
         await paymentPage.proceedToPayment()
         await page.screenshot({path: 'success-page.png'})
     })
-
 });

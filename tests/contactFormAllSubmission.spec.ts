@@ -1,6 +1,6 @@
 import {test} from '@playwright/test';
 import {SendMessage} from '../page-object/SendMessage.page';
-import {contactFormData, contactFormUrls} from "../data/testData";
+import {contactFormData, contactFormUrls} from "../data/formTestData";
 
 for (const form of contactFormUrls) {
 

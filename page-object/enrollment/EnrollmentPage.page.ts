@@ -1,5 +1,4 @@
 import {Locator, Page} from "@playwright/test"
-
 import {expect} from "@playwright/test"
 
 export class EnrollmentPage {
@@ -7,12 +6,10 @@ export class EnrollmentPage {
     private readonly nextBtn: Locator
     private readonly previosBtn: Locator
     private readonly logInAsDiferentUserBtn: Locator
-    private readonly loader: Locator
     private readonly stepTitle: (stepName: string) => Locator
 
     constructor(page: Page) {
         this.page = page
-        this.loader = page.getByRole('status').filter({hasText: 'Loading...'})
         this.nextBtn = page.getByRole('button', {name: 'Next Step'})
         this.previosBtn = page.getByRole('button', {name: 'Previous Step'})
         this.logInAsDiferentUserBtn = page.getByRole('button', {name: 'Log in as a different user'})
@@ -36,12 +33,13 @@ export class EnrollmentPage {
         await expect(this.stepTitle(stepName)).toBeVisible({timeout});
     }
 
-    // =====
-    async clickPrevios(): Promise<void> {
+    // Click previous btn
+    async clickPrevious(): Promise<void> {
         await this.safeClick(this.previosBtn)
     }
 
-    async clickLogInAsDiferentUser(): Promise<void> {
+    // Click LogIn As A Different User btn
+    async clickLogInAsDifferentUser(): Promise<void> {
         await this.safeClick(this.logInAsDiferentUserBtn)
     }
 

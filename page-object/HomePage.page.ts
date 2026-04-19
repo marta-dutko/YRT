@@ -21,25 +21,3 @@ export class HomePage extends BasePage {
         await this.allCoursesBtn.click()
     }
 }
-
-
-// !!!!!!!!!!!
-// export class HomePage {
-//     constructor(page) {
-//         this.page = page
-//         this.allCoursesBtn = page.getByRole('link', { name: 'See All Courses' })
-//         // this.course= page.getByRole('link', { name: 'CPCCLDG3001' })
-
-//     }
-//      async navigate() {
-//         await this.page.goto('https://yrt-app-staging.vercel.app/')
-//     }
-//     async gotoCatalog(){
-//         await this.allCoursesBtn.click()
-//         // 
-//         // await this.page.pause()
-//     }
-
-// }
-
-

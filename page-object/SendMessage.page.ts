@@ -1,5 +1,5 @@
 import {expect, Locator, Page} from '@playwright/test';
-import {ContactForm} from "../data/testData";
+import {ContactForm} from "../data/enrollTestData";
 
 export class SendMessage {
     private readonly page: Page
@@ -11,10 +11,7 @@ export class SendMessage {
     private readonly phoneNumberField: Locator
     private readonly messageField: Locator
     private readonly sendMessegeBtn: Locator
-    // alert
-    // private readonly successAlert:Locator
     private readonly successMessage: Locator
-    private readonly successDetails: Locator
 
     constructor(page: Page) {
         this.page = page
@@ -27,9 +24,6 @@ export class SendMessage {
         this.messageField = page.getByPlaceholder('How can we help?')
         this.sendMessegeBtn = page.getByRole('button', {name: 'Send Message'})
         this.successMessage = page.getByText('Thank you!')
-        this.successDetails = page.getByText('Your message was successfully sent to support.')
-        // alert
-        //     Need to be
     }
 
     async fillContactUsForm(userFormData: ContactForm): Promise<void> {
@@ -50,5 +44,4 @@ export class SendMessage {
         await this.page.screenshot({path: `success-${Date.now()}.png`});
         await expect(this.successMessage).toBeVisible({timeout: 10000});
     }
-
 }

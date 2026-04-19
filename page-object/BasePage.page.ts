@@ -9,5 +9,4 @@ protected readonly page: Page;
   async goTo(url:string): Promise<void> {
    await this.page.goto(url)
   }
-
 }

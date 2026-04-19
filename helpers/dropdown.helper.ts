@@ -5,13 +5,12 @@ export async function selectDropdownOption(
     triggerBtn: Locator,
     optionName: string,
 ): Promise<void> {
-  // waitFor не покривається конфігом — явний timeout потрібен
   await triggerBtn.page()
       .locator('[role="status"]')
       .waitFor({ state: 'hidden', timeout: 10000 });
 
-  await expect(triggerBtn).toBeVisible(); // використовує expect.timeout з конфігу
-  await triggerBtn.click();               // використовує actionTimeout з конфігу
+  await expect(triggerBtn).toBeVisible();
+  await triggerBtn.click();
 
   const menuId = await triggerBtn.getAttribute('aria-controls');
   const option = triggerBtn.page()
