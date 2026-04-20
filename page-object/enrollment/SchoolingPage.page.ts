@@ -8,7 +8,7 @@ import {selectDropdownOption} from "../../helpers/dropdown.helper";
  */
 export class SchoolingPage {
     private readonly page: Page
-    private readonly schoolLeveDropdown: Locator  // Dropdown for selecting the highest school level completed
+    private readonly schoolLeveDropdown: Locator // Dropdown for selecting the highest school level completed
 
     constructor(page: Page) {
         this.page = page

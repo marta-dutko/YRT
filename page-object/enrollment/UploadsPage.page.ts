@@ -3,7 +3,7 @@ import {NewUser} from "../../data/enrollTestData";
 
 /**
  * Page Object Model for the Uploads step of the enrollment flow.
- * Handles uploading identity documents (driver licence and passport)
+ * Handles uploading identity documents (driver license and passport)
  * and verifies each file is successfully processed before proceeding.
  */
 export class UploadsPage {
@@ -19,16 +19,16 @@ export class UploadsPage {
     }
 
     /**
-     * Uploads the driver licence and passport files, then waits for each
+     * Uploads the driver license and passport files, then waits for each
      * upload to complete before moving on.
      * For each document:
      *  - Sets the file on the hidden file input within the section
      *  - Waits for the "Uploading file" indicator to disappear (up to 30s)
      *  - Asserts that the "File added" confirmation heading is visible (up to 15s)
-     * @param uploadData - Object containing file paths for the licence and passport.
+     * @param uploadData - Object containing file paths for the license and passport.
      */
     async uploadIdentityDocuments(uploadData: NewUser): Promise<void> {
-        // Upload driver licence
+        // Upload driver license
         await this.driverLicenceSection.locator('input[type="file"]').setInputFiles(uploadData.licencePath)
         await expect(this.driverLicenceSection.getByText('Uploading file')).toBeHidden({timeout: 30000})
         await expect(this.driverLicenceSection.getByRole('heading', {name: 'File added'})).toBeVisible({timeout: 15000})

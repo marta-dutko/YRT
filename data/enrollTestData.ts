@@ -39,7 +39,7 @@ export interface NewUser {
     employmentOption: string
 }
 
-export interface ContactFormUrls{
+export interface ContactFormUrls {
     name:string,
     url:string
 }

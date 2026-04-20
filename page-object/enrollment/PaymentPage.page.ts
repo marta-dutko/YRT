@@ -9,29 +9,29 @@ export class PaymentPage {
     private readonly page: Page
     private readonly cardHolder: Locator
     private readonly cardNumber: Locator
-    private readonly cardExpirityMonth: Locator  // Native <select> element for expiry month
-    private readonly cardExpirityYear: Locator   // Native <select> element for expiry year
+    private readonly cardExpiryMonth: Locator  // Native <select> element for expiry month
+    private readonly cardExpiryYear: Locator   // Native <select> element for expiry year
     private readonly cardCVN: Locator
 
     constructor(page: Page) {
         this.page = page
         this.cardHolder = page.getByRole('textbox', {name: 'Card Holder'})
         this.cardNumber = page.getByRole('textbox', {name: 'Card Number'})
-        this.cardExpirityMonth = page.locator('#EWAY_CARDEXPIRYMONTH')
-        this.cardExpirityYear = page.locator('#EWAY_CARDEXPIRYYEAR')
+        this.cardExpiryMonth = page.locator('#EWAY_CARDEXPIRYMONTH')
+        this.cardExpiryYear = page.locator('#EWAY_CARDEXPIRYYEAR')
         this.cardCVN = page.getByRole('textbox', {name: 'CVN'})
     }
 
     /**
      * Fills in all payment form fields with the provided card details.
      * Expiry month and year are set via selectOption on native <select> elements.
-     * @param paymentData - Object containing card holder name, number, expiry, and CVN.
+     * @param paymentData - Object containing card holder name, number, expiry, and CVN.????
      */
     async fillPaymentForm(paymentData: Payment): Promise<void> {
         await this.cardHolder.fill(paymentData.cardHolder)
         await this.cardNumber.fill(paymentData.cardNumber)
-        await this.cardExpirityMonth.selectOption(paymentData.cardExpiryMonth)
-        await this.cardExpirityYear.selectOption(paymentData.cardExpiryYear)
+        await this.cardExpiryMonth.selectOption(paymentData.cardExpiryMonth)
+        await this.cardExpiryYear.selectOption(paymentData.cardExpiryYear)
         await this.cardCVN.fill(paymentData.cardCVN)
     }
 

@@ -1,6 +1,5 @@
 import { Locator, expect } from '@playwright/test';
 
-// dropdown.helper.ts
 export async function selectDropdownOption(
     triggerBtn: Locator,
     optionName: string,

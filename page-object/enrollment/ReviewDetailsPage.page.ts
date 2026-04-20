@@ -14,11 +14,11 @@ export class ReviewDetailsPage {
     private readonly userFullName: Locator
     private readonly courseDate: Locator
     private readonly courseLocation: Locator
-    private readonly courseFees: Locator        // Updates to reflect discounted price after a valid code is applied
+    private readonly courseFees: Locator // Updates to reflect discounted price after a valid code is applied
     // Discount code controls
     private readonly discountCode: Locator
     private readonly discountCodeBtn: Locator
-    private readonly discountSuccessMessage: Locator  // Green text confirming the discount amount applied
+    private readonly discountSuccessMessage: Locator // Green text confirming the discount amount applied
     // Navigation
     private readonly goToPaymentBtn: Locator
 
@@ -31,7 +31,7 @@ export class ReviewDetailsPage {
         this.courseFees = page.locator('#input-review_fee')
         this.discountCode = page.locator('#input-discount')
         this.discountCodeBtn = page.getByRole('button', {name: 'Apply'})
-        // Targets green-coloured text containing "off" to confirm discount was applied
+        // Targets green-colored text containing "off" to confirm discount was applied
         this.discountSuccessMessage = page.locator('.text-green-700').filter({hasText: 'off'})
         this.goToPaymentBtn = page.getByRole('button', {name: 'Go to Payment'})
     }

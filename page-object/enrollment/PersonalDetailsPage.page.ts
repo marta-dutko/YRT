@@ -1,6 +1,7 @@
 import {Locator, Page} from "@playwright/test"
 import {selectDropdownOption} from '../../helpers/dropdown.helper';
 import {NewUser} from "../../data/enrollTestData"
+import {DayData} from "../../data/interfaces";
 
 /**
  * Page Object Model for the Personal Details step of the enrollment flow.
@@ -49,16 +50,14 @@ export class PersonalDetailsPage {
     /**
      * Opens the date of birth picker, switches to year view, selects the target year,
      * navigates to the correct month, and clicks the target day cell.
-     * @param year - Target year (e.g. "1990").
-     * @param month - Target month name (e.g. "March").
-     * @param day - Target day number as a string (e.g. "15").
+     * @param date
      */
-    async selectBirthDate(year: string, month: string, day: string): Promise<void> {
+    async selectBirthDate(date: DayData): Promise<void> {
         await this.dateOfBirth.click()
-        await this.calendarViewSwitcher.click()      // Switch to year selection view
-        await this.page.getByRole('radio', {name: year}).click()
-        await this.navigateToMonth(month)
-        await this.calendarDateCell(day).click()
+        await this.calendarViewSwitcher.click() // Switch to year selection view
+        await this.page.getByRole('radio', {name: date.year}).click()
+        await this.navigateToMonth(date.month)
+        await this.calendarDateCell(date.day).click()
     }
 
     /**
@@ -71,7 +70,7 @@ export class PersonalDetailsPage {
         await selectDropdownOption(this.titleDropdown, personalData.personalDetailsTitle)
         await this.preferredName.fill(personalData.preferredName)
         await this.middleName.fill(personalData.middleName)
-        await this.selectBirthDate(personalData.dayData.year, personalData.dayData.month, personalData.dayData.day)
+        await this.selectBirthDate(personalData.dayData)
         await selectDropdownOption(this.genderDropdown, personalData.genderOption)
     }
 }

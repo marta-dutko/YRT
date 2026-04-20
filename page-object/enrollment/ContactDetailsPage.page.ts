@@ -35,7 +35,7 @@ export class ContactDetailsPage {
     /**
      * Fills in the entire Contact Details form using the provided user data.
      * The same phone number is reused for mobile, home, work, and emergency fields.
-     * @param contactData - Object containing organisation, position, phone number,
+     * @param contactData - Object containing organization, position, phone number,
      * and emergency contact details.
      */
     async fillContactDetailsForm(contactData: NewUser): Promise<void> {
