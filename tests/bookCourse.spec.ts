@@ -113,6 +113,5 @@ test('Book a course', async ({page}) => {
         await enrollmentPage.expectStepToBeVisible('Complete payment')
         await paymentPage.fillPaymentForm(payment)
         await paymentPage.proceedToPayment()
-        await page.screenshot({path: 'success-page.png'})
     })
 });

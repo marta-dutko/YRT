@@ -1,15 +1,6 @@
 import {faker} from "@faker-js/faker"
 import {DayData} from "./interfaces";
 
-// For forms object
-export interface ContactForm {
-    fullNameField: string,
-    organisationField: string,
-    emailField: string,
-    phoneNumberField: string,
-    messageField: string
-}
-
 export interface NewUser {
     name: string,
     givenName: string,

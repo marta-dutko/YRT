@@ -2,13 +2,18 @@ import {Locator, Page} from '@playwright/test';
 import {NewUser} from "../../data/enrollTestData";
 import {selectDropdownOption} from "../../helpers/dropdown.helper";
 
+/**
+ * Page Object Model for the Nationality step of the enrollment flow.
+ * Handles filling in the user's country of birth, city of birth,
+ * citizenship status, native language, and English proficiency.
+ */
 export class NationalityPage {
     private readonly page: Page
-    private readonly countryOfBirthDropdown: Locator
+    private readonly countryOfBirthDropdown: Locator       // Dropdown for selecting country of birth
     private readonly cityOfBirth: Locator
-    private readonly citizenshipStatusDropdown: Locator
-    private readonly nativeLanguageDropdown: Locator
-    private readonly englishProficiencyDropdown: Locator
+    private readonly citizenshipStatusDropdown: Locator    // Dropdown for selecting citizenship/visa status
+    private readonly nativeLanguageDropdown: Locator       // Dropdown for selecting first/native language
+    private readonly englishProficiencyDropdown: Locator   // Dropdown for selecting English proficiency level
 
     constructor(page: Page) {
         this.page = page
@@ -19,11 +24,17 @@ export class NationalityPage {
         this.englishProficiencyDropdown = page.locator('button[aria-controls="english-proficiency-menu"]')
     }
 
+    /**
+     * Fills in the entire Nationality form using the provided user data.
+     * All dropdown fields are selected via the shared dropdown helper.
+     * @param nationalityData - Object containing country of birth, city, citizenship status,
+     * native language, and English proficiency values.
+     */
     async fillNationalityForm(nationalityData: NewUser): Promise<void> {
-        await selectDropdownOption(this.countryOfBirthDropdown,nationalityData.countryOfBirthOption)
+        await selectDropdownOption(this.countryOfBirthDropdown, nationalityData.countryOfBirthOption)
         await this.cityOfBirth.fill(nationalityData.city)
-        await selectDropdownOption(this.citizenshipStatusDropdown,nationalityData.citizenshipStatus)
-        await selectDropdownOption(this.nativeLanguageDropdown,nationalityData.nativeLanguage)
-        await selectDropdownOption(this.englishProficiencyDropdown ,nationalityData.englishProficiency)
+        await selectDropdownOption(this.citizenshipStatusDropdown, nationalityData.citizenshipStatus)
+        await selectDropdownOption(this.nativeLanguageDropdown, nationalityData.nativeLanguage)
+        await selectDropdownOption(this.englishProficiencyDropdown, nationalityData.englishProficiency)
     }
 }

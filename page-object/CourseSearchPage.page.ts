@@ -2,18 +2,23 @@ import {expect, Locator, Page} from "@playwright/test";
 import {BasePage} from "./BasePage.page";
 import {CourseSearchData} from "../data/courseSearchData";
 
+/**
+ * Page Object Model for the Course Search page.
+ * Handles search form interactions, date picker navigation, and result assertions.
+ */
 export class CourseSearchPage extends BasePage {
     protected readonly page: Page
     // Search form
     private readonly courseNameInput: Locator
-    private readonly industryDropdown: Locator
-    private readonly startDateInput: Locator
-    private readonly endDateInput: Locator
+    private readonly industryDropdown: Locator  // Dropdown trigger for filtering by industry
+    private readonly startDateInput: Locator    // Date picker button for the start date
+    private readonly endDateInput: Locator      // Date picker button for the end date
     private readonly findCourseBtn: Locator
     // Results area
-    private readonly itemsFoundCounter: Locator
-    private readonly nothingFoundHeading: Locator
-    private readonly searchHeading: Locator
+    private readonly itemsFoundCounter: Locator     // Matches text like "3 items found"
+    private readonly nothingFoundHeading: Locator   // Shown when search returns no results
+    private readonly searchHeading: Locator         // Heading that confirms the search panel is visible
+
     constructor(page: Page) {
         super(page)
         this.page = page
@@ -28,12 +33,20 @@ export class CourseSearchPage extends BasePage {
         this.searchHeading = page.getByRole('heading', {name: 'Search your Course'});
     }
 
-    // Actions
-    async fillCourseName(courseData:CourseSearchData): Promise<void> {
+    /**
+     * Types the course name from test data into the search input.
+     * @param courseData - Object containing search parameters.
+     */
+    async fillCourseName(courseData: CourseSearchData): Promise<void> {
         await this.courseNameInput.fill(courseData.courseName)
     }
 
-    async selectIndustry(courseData:CourseSearchData): Promise<void> {
+    /**
+     * Opens the industry dropdown, selects the matching option by exact name,
+     * closes the dropdown, and asserts the selected value is reflected on the button.
+     * @param courseData - Object containing the industry name to select.
+     */
+    async selectIndustry(courseData: CourseSearchData): Promise<void> {
         await this.industryDropdown.click();
         const menuId = await this.industryDropdown.getAttribute('aria-controls');
         const option = this.page
@@ -44,50 +57,83 @@ export class CourseSearchPage extends BasePage {
         await expect(this.industryDropdown).toContainText(courseData.courseIndustry);
     }
 
-    async navigateToMonth(courseData:CourseSearchData):Promise<void> {
+    /**
+     * Clicks "Next month" in the calendar until the displayed month matches
+     * the target month from the test data. Used by both fillStartDate and fillEndDate.
+     * @param courseData - Object containing the target start date (month used for navigation).
+     */
+    async navigateToMonth(courseData: CourseSearchData): Promise<void> {
         while (!(await this.page.locator('.MuiPickersCalendarHeader-label').innerText()).includes(courseData.startDate.month)) {
-            await this.page.getByRole('button', { name: 'Next month' }).click()
+            await this.page.getByRole('button', {name: 'Next month'}).click()
             await this.page.waitForTimeout(100)
         }
     }
 
-    async fillStartDate(courseData:CourseSearchData): Promise<void> {
+    /**
+     * Opens the start date picker, switches to year/month view,
+     * selects the target year, navigates to the correct month, and picks the day.
+     * @param courseData - Object containing the start date (year, month, day).
+     */
+    async fillStartDate(courseData: CourseSearchData): Promise<void> {
         await this.startDateInput.click()
-        await this.page.getByRole('button', { name: /calendar view is open, switch/i }).click()
-        await this.page.getByRole('radio', { name: courseData.startDate.year }).click()
-        await  this.navigateToMonth(courseData)
-        await this.page.getByRole('gridcell', { name: courseData.startDate.day, exact: true }).first().click()
+        await this.page.getByRole('button', {name: /calendar view is open, switch/i}).click()
+        await this.page.getByRole('radio', {name: courseData.startDate.year}).click()
+        await this.navigateToMonth(courseData)
+        await this.page.getByRole('gridcell', {name: courseData.startDate.day, exact: true}).first().click()
     }
 
-    async fillEndDate(courseData:CourseSearchData): Promise<void> {
+    /**
+     * Opens the end date picker, switches to year/month view,
+     * selects the target year, navigates to the correct month, and picks the day.
+     * @param courseData - Object containing the end date (year, month, day).
+     */
+    async fillEndDate(courseData: CourseSearchData): Promise<void> {
         await this.endDateInput.click()
-        await this.page.getByRole('button', { name: /calendar view is open, switch/i }).click()
-        await this.page.getByRole('radio', { name: courseData.endDate.year }).click()
-        await  this.navigateToMonth(courseData)
-        await this.page.getByRole('gridcell', { name: courseData.endDate.day, exact: true }).first().click()
+        await this.page.getByRole('button', {name: /calendar view is open, switch/i}).click()
+        await this.page.getByRole('radio', {name: courseData.endDate.year}).click()
+        await this.navigateToMonth(courseData)
+        await this.page.getByRole('gridcell', {name: courseData.endDate.day, exact: true}).first().click()
     }
 
+    /**
+     * Clicks the "Find a Course" button to submit the search form.
+     */
     async clickFindACourse(): Promise<void> {
         await this.findCourseBtn.click();
     }
 
-    // Assertions
+    /**
+     * Waits for the URL to match the search results pattern,
+     * confirming the page transitioned to results view.
+     */
     async expectToBeOnSearchResultsPage(): Promise<void> {
         await this.page.waitForURL(/\/courses\?searchMode=true/);
     }
 
+    /**
+     * Asserts that the "Search your Course" heading is visible on the page.
+     */
     async expectSearchPanelVisible(): Promise<void> {
         await expect(this.searchHeading).toBeVisible();
     }
 
-    async expectItemsCount(itemCount:number): Promise<void> {
+    /**
+     * Asserts that the items counter is visible and matches the expected count.
+     * Parses the leading number from text like "5 items found".
+     * @param itemCount - Expected number of search results.
+     */
+    async expectItemsCount(itemCount: number): Promise<void> {
         await expect(this.itemsFoundCounter).toBeVisible()
         const text = await this.itemsFoundCounter.innerText()
         expect(parseInt(text)).toBe(itemCount)
     }
 
+    /**
+     * Asserts that the "Nothing found" message is visible
+     * and that the items counter shows 0.
+     */
     async expectNothingFound(): Promise<void> {
-        const zeroNumber:number= 0
+        const zeroNumber: number = 0
         await expect(this.nothingFoundHeading).toBeVisible()
         await this.expectItemsCount(zeroNumber)
     }

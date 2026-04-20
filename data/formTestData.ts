@@ -1,8 +1,16 @@
 import {faker} from "@faker-js/faker";
-import {ContactForm, ContactFormUrls} from "./enrollTestData";
+import {ContactFormUrls} from "./enrollTestData";
+
+export interface ContactForm {
+    fullNameField: string,
+    organisationField: string,
+    emailField: string,
+    phoneNumberField: string,
+    messageField: string
+}
 
 export const contactFormData: ContactForm = {
-    fullNameField: faker.person.fullName(),
+    fullNameField: faker.person.firstName().slice(0, 2) + ' ' + faker.person.lastName().slice(0, 2),
     organisationField: faker.string.alpha(5),
     emailField: faker.internet.email({provider: 'test.co'}),
     phoneNumberField: faker.string.numeric(10),
