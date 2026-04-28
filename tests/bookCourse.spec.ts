@@ -49,7 +49,7 @@ test('Book a course', async ({page}) => {
     await test.step('Navigate to course catalog', async () => {
         await homePage.gotoCatalog('https://yrt-app-staging.vercel.app/')
     })
-// Step 2: Find the target course by ID and click "Book" to start enrollment
+    // Step 2: Find the target course by ID and click "Book" to start enrollment
     await test.step('Open course page', async () => {
         await allCoursesPage.openCourse(courseData.id)
         await coursePage.goToBooking()
@@ -59,6 +59,7 @@ test('Book a course', async ({page}) => {
         await enrollmentPage.expectStepToBeVisible('Registration')
         await registrationPage.fillRegistrationForm(newUser)
         await registrationPage.submitRegistration()
+        await registrationPage.expectSuccessToast()
     })
     // Step 4: Provide personal details
     await test.step('Personal Details', async () => {

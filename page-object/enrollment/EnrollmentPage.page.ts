@@ -18,7 +18,10 @@ export class EnrollmentPage {
         this.page = page
         this.nextBtn = page.getByRole('button', {name: 'Next Step'})
         this.previousBtn = page.getByRole('button', {name: 'Previous Step'})
-        this.logInAsDifferentUserBtn = page.getByRole('button', {name: 'Log in as a different user'})
+        this.logInAsDifferentUserBtn = page.getByRole('button', {
+            name: 'Log in as a different user',
+            exact: true
+        }).filter({ hasNot: page.locator('[disabled]') })
         this.stepTitle = (stepName: string) => page.getByRole('heading', {name: stepName})
     }
 
@@ -49,7 +52,7 @@ export class EnrollmentPage {
 
     /**
      * Asserts that the specified step heading is visible on the page.
-     * Uses a generous timeout to accommodate slow-loading or async steps.
+     * Uses a longer timeout to accommodate async or slow-loading steps.
      * @param stepName - The heading text of the step to verify.
      * @param timeout - Maximum time to wait for the step to appear (default: 120s).
      */
@@ -66,15 +69,15 @@ export class EnrollmentPage {
 
     /**
      * Clicks the "Log in as a different user" button,
-     * typically used to switch accounts during the enrollment flow.
+     * used to switch accounts mid-flow without restarting enrollment.
      */
     async clickLogInAsDifferentUser(): Promise<void> {
         await this.safeClick(this.logInAsDifferentUserBtn)
     }
 
     /**
-     * Waits for the locator to be visible before clicking it.
-     * Prevents flaky test failures caused by clicking elements that are not yet interactable.
+     * Waits for the element to be visible, then clicks it.
+     * Guards against race conditions where the element exists in the DOM but is not yet interactable.
      * @param locator - The element to wait for and click.
      */
     async safeClick(locator: Locator): Promise<void> {

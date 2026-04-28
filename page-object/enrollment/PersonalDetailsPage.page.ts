@@ -36,8 +36,9 @@ export class PersonalDetailsPage {
     }
 
     /**
-     * Clicks "Previous month" in the calendar until the displayed month
-     * matches the target month. Used internally by selectBirthDate.
+     * Clicks "Previous month" repeatedly until the calendar displays the target month.
+     * Includes a short delay after each click to allow the calendar to re-render.
+     * Used internally by selectBirthDate.
      * @param targetMonth - Month name to navigate to (e.g. "March").
      */
     async navigateToMonth(targetMonth: string): Promise<void> {
@@ -47,10 +48,11 @@ export class PersonalDetailsPage {
         }
     }
 
+
     /**
      * Opens the date of birth picker, switches to year view, selects the target year,
      * navigates to the correct month, and clicks the target day cell.
-     * @param date
+     * @param date - Object containing day, month, and year for the desired birth date.
      */
     async selectBirthDate(date: DayData): Promise<void> {
         await this.dateOfBirth.click()

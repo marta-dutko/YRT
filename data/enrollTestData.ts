@@ -44,6 +44,19 @@ export interface ContactFormUrls {
     url:string
 }
 
+//
+export interface ExistingUser{
+    givenName: string,
+    lastName: string,
+    email: string,
+}
+//
+export const existingUser:ExistingUser={
+    givenName: 'test',
+    lastName: 'test',
+    email: 'test@tt.co',
+}
+
 // Dynamic data
 export const newUser: NewUser = {
     name: faker.person.fullName(),
@@ -66,7 +79,7 @@ export const newUser: NewUser = {
     organisation: faker.company.name(),
     phoneNumber: faker.string.numeric(10),
     position: faker.person.jobTitle(),
-    emergencyContactName: faker.person.fullName(),
+    emergencyContactName: faker.person.firstName().slice(0, 2) + ' ' + faker.person.lastName().slice(0, 2),
     emergencyContactRelationship: faker.helpers.arrayElement(['Colleague', 'Friend', 'Parent', 'Sibling']),
     // Address
     stateOption: faker.helpers.arrayElement(['NSW', 'VIC', 'QLD']),

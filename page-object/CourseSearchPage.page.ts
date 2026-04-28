@@ -1,6 +1,7 @@
 import {expect, Locator, Page} from "@playwright/test";
 import {BasePage} from "./BasePage.page";
 import {CourseSearchData} from "../data/courseSearchData";
+import {navigateToMonth} from "../helpers/navigateToMonthCalendar.helper";
 
 /**
  * Page Object Model for the Course Search page.
@@ -58,40 +59,34 @@ export class CourseSearchPage extends BasePage {
     }
 
     /**
-     * Clicks "Next month" in the calendar until the displayed month matches
-     * the target month from the test data. Used by both fillStartDate and fillEndDate.
-     * @param courseData - Object containing the target start date (month used for navigation).
-     */
-    async navigateToMonth(courseData: CourseSearchData): Promise<void> {
-        while (!(await this.page.locator('.MuiPickersCalendarHeader-label').innerText()).includes(courseData.startDate.month)) {
-            await this.page.getByRole('button', {name: 'Next month'}).click()
-            await this.page.waitForTimeout(100)
-        }
-    }
-
-    /**
      * Opens the start date picker, switches to year/month view,
      * selects the target year, navigates to the correct month, and picks the day.
      * @param courseData - Object containing the start date (year, month, day).
      */
     async fillStartDate(courseData: CourseSearchData): Promise<void> {
+        // Calendar navigation config - shared with fillEndDate
+        const calendarBtn:string='Next month'
+        const locatorName:string='.MuiPickersCalendarHeader-label'
         await this.startDateInput.click()
         await this.page.getByRole('button', {name: /calendar view is open, switch/i}).click()
         await this.page.getByRole('radio', {name: courseData.startDate.year}).click()
-        await this.navigateToMonth(courseData)
+        await navigateToMonth(this.page,courseData.startDate,calendarBtn, locatorName)
         await this.page.getByRole('gridcell', {name: courseData.startDate.day, exact: true}).first().click()
     }
 
     /**
      * Opens the end date picker, switches to year/month view,
      * selects the target year, navigates to the correct month, and picks the day.
+     * Note: uses courseData.startDate for month navigation — update to endDate if test data diverges.
      * @param courseData - Object containing the end date (year, month, day).
      */
     async fillEndDate(courseData: CourseSearchData): Promise<void> {
+        const calendarBtn:string='Next month'
+        const locatorName:string='.MuiPickersCalendarHeader-label'
         await this.endDateInput.click()
         await this.page.getByRole('button', {name: /calendar view is open, switch/i}).click()
         await this.page.getByRole('radio', {name: courseData.endDate.year}).click()
-        await this.navigateToMonth(courseData)
+        await navigateToMonth(this.page,courseData.startDate,calendarBtn, locatorName)
         await this.page.getByRole('gridcell', {name: courseData.endDate.day, exact: true}).first().click()
     }
 
