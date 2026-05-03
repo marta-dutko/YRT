@@ -15,6 +15,7 @@ export class CoursesFilterPage extends BasePage {
     private readonly calendarToggleBtn: Locator  // "Switch to calendar view" aria-label button
     private readonly listToggleBtn: Locator      // "Switch to list view" aria-label button
     private readonly calendarSessions: Locator   // FullCalendar event links (a.fc-event)
+    private readonly courseTypeBadge: Locator    // type badge pill on course cards and detail page
 
     constructor(page: Page) {
         super(page)
@@ -28,6 +29,7 @@ export class CoursesFilterPage extends BasePage {
         this.calendarToggleBtn  = page.getByLabel('Switch to calendar view')
         this.listToggleBtn      = page.getByLabel('Switch to list view')
         this.calendarSessions   = page.locator('a.fc-event')
+        this.courseTypeBadge    = page.locator('span.rounded-\\[100px\\]:visible')
     }
 
     // --- URL helpers ---
@@ -173,10 +175,7 @@ export class CoursesFilterPage extends BasePage {
      * @param expectedBadge - Expected badge text, e.g. "Accredited" or "Workshop".
      */
     async assertTypeBadgeOnFirstCard(expectedBadge: string): Promise<void> {
-        // this.courseCards   = page.locator('span.bg-orange-500:visible', { hasText: 'Accredited' }).first()
-        const badge = this.page.locator('span.w-fit.rounded-\\[100px\\]:visible')
-            .filter({ hasText: expectedBadge }).first();
-        // const badge = this.courseCards.first().getByText(expectedBadge, { exact: true }).first()
+        const badge = this.courseTypeBadge.filter({ hasText: expectedBadge }).first()
         await expect(badge).toBeVisible()
     }
 
@@ -242,6 +241,14 @@ export class CoursesFilterPage extends BasePage {
      */
     getCalendarSessions(): Locator {
         return this.calendarSessions
+    }
+
+    /**
+     * Returns the current count of visible FullCalendar session events.
+     * Used to detect whether a filter reduced or zeroed out the session list.
+     */
+    async countCalendarSessions(): Promise<number> {
+        return this.calendarSessions.count()
     }
 
     /**

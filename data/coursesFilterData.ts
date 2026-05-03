@@ -45,3 +45,20 @@ export const ALL_FILTER_OPTIONS: FilterOption[] = [
 
 // Values confirmed from the select element on the courses page
 export const PER_PAGE_OPTIONS = ['5', '10', '20', '50'] as const
+
+// --- Calendar view filter checks ---
+
+export interface CalendarFilterCheck {
+    param: 'type' | 'duration'
+    value: string
+    badge?: string   // expected badge text on course detail page (type filters only)
+}
+
+// qualification is intentionally excluded: it always produces 0 sessions in the calendar
+// and is covered by the dedicated 'Full qualification filter' test in calendarView.spec.ts
+export const CALENDAR_FILTER_CHECKS: CalendarFilterCheck[] = [
+    { param: 'type',     value: 'accredited', badge: 'Accredited' },
+    { param: 'type',     value: 'workshop',   badge: 'Workshop'   },
+    { param: 'duration', value: 'skill_set'                       },
+    { param: 'duration', value: 'unit'                            },
+]

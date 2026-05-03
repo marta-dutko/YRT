@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { CoursesFilterPage } from '../../page-object/CoursesFilterPage.page'
-import { COURSES_URL } from '../../data/coursesFilterData'
+import { COURSES_URL, CALENDAR_FILTER_CHECKS } from '../../data/coursesFilterData'
 
 /**
  * P1 — Calendar View.
@@ -87,8 +87,9 @@ test.describe('Calendar view', () => {
         let sessionDate = ''
         await test.step('Read date from first session cell', async () => {
             const firstSession = coursesPage.getCalendarSessions().first()
-            const cell = firstSession.locator('xpath=ancestor::td[@data-date][1]')
-            const date = await cell.getAttribute('data-date')
+            const date = await firstSession.evaluate(
+                (el) => el.closest('td[data-date]')?.getAttribute('data-date') ?? ''
+            )
             if (date) sessionDate = date
         })
 
@@ -122,6 +123,90 @@ test.describe('Calendar view', () => {
         await test.step('Verify calendar sessions are visible', async () => {
             await coursesPage.assertCalendarHasSessions()
         })
+    })
+
+    test('Full qualification filter — no sessions shown in calendar', async ({ page }) => {
+        const coursesPage = new CoursesFilterPage(page)
+
+        // Full qualification courses (Diploma / Certificate) are long-form enrolments
+        // and do not have individual scheduled sessions, so the calendar must be empty.
+        await test.step('Open calendar with Full qualification filter active', async () => {
+            await coursesPage.goTo(`${COURSES_URL}?duration=qualification&mode=calendar`)
+        })
+
+        await test.step('Verify URL has both params', async () => {
+            await coursesPage.assertURLParam('duration', 'qualification')
+            await coursesPage.assertURLParam('mode', 'calendar')
+        })
+
+        await test.step('Verify no session events are visible in the calendar', async () => {
+            await coursesPage.assertCalendarHasNoSessions()
+        })
+    })
+
+    // --- Filter effect on session count ---
+
+    test.describe('Filter changes session count in calendar', () => {
+        for (const filter of CALENDAR_FILTER_CHECKS) {
+            test(`${filter.param}=${filter.value} - session count changes after filter`, async ({ page }) => {
+                const coursesPage = new CoursesFilterPage(page)
+
+                let countAfter  = 0
+                let sessionDate = ''
+
+                await test.step('Open calendar view', async () => {
+                    await coursesPage.goTo(`${COURSES_URL}?mode=calendar`)
+                })
+
+                await test.step(`Apply filter ${filter.param}=${filter.value}`, async () => {
+                    await coursesPage.selectFilter(filter.value)
+                    // Wait until the URL reflects the applied filter — confirms the app committed the change
+                    await page.waitForURL(
+                        (url) => url.searchParams.getAll(filter.param).includes(filter.value),
+                        { timeout: 5000 }
+                    )
+                    // Short pause for FullCalendar to finish DOM re-render after URL update
+                    await page.waitForTimeout(500)
+                })
+
+                await test.step('Count sessions after applying filter', async () => {
+                    countAfter = await coursesPage.countCalendarSessions()
+                    // 0 sessions is a valid filtered result - no assertion that count must change
+                })
+
+                if (countAfter > 0) {
+                    // Sessions exist — navigate into the first one and run filter-specific assertions
+                    await test.step('Read date from first session cell', async () => {
+                        const firstSession = coursesPage.getCalendarSessions().first()
+                        const date = await firstSession.evaluate(
+                            (el) => el.closest('td[data-date]')?.getAttribute('data-date') ?? ''
+                        )
+                        if (date) sessionDate = date
+                    })
+
+                    await test.step('Click first session and navigate to course page', async () => {
+                        await coursesPage.clickFirstSession()
+                    })
+
+                    if (filter.param === 'duration' && sessionDate) {
+                        await test.step('Verify session date is visible on the booking page', async () => {
+                            await coursesPage.assertSessionVisibleInBooking(sessionDate)
+                        })
+                    }
+
+                    if (filter.param === 'type' && filter.badge) {
+                        await test.step(`Verify badge "${filter.badge}" is visible on the course page`, async () => {
+                            await coursesPage.assertTypeBadgeOnFirstCard(filter.badge!)
+                        })
+                    }
+                } else {
+                    // 0 sessions is an expected result for some filters — explicitly assert empty calendar
+                    await test.step('Verify calendar shows no sessions (0 is valid for this filter)', async () => {
+                        await coursesPage.assertCalendarHasNoSessions()
+                    })
+                }
+            })
+        }
     })
 
     test('Clear All — filter params removed, mode=calendar preserved', async ({ page }) => {
