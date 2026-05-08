@@ -3,7 +3,7 @@ import {CourseSearchPage} from "../page-object/CourseSearchPage.page";
 
 // Valid data: correct filter values with expected result counts
 // Invalid data: values that should return zero results
-import {courseSearchInValidData, courseSearchValidData} from "../data/courseSearchData";
+import {courseFullDataSearchValidData, courseSearchInValidData, courseSearchValidData} from "../data/courseSearchData";
 
 // Base URL for the staging environment used across all search tests
 const baseUrl: string = 'https://yrt-app-staging.vercel.app/'
@@ -31,7 +31,23 @@ test('Empty search redirects to courses with searchMode=true', async ({page}) =>
  * Suite 2: Search by course name only.
  * Verifies that filtering by name narrows results to the expected count.
  */
-test('Search by course name ', async ({page}) => {
+test('Search by full course name ', async ({page}) => {
+    const courseSearchPage = new CourseSearchPage(page)
+    await test.step('Navigate to homepage', async () => {
+        await courseSearchPage.goTo(baseUrl)
+    })
+    await test.step('Fill course name and submit', async () => {
+        await courseSearchPage.fillCourseName(courseFullDataSearchValidData)
+        await courseSearchPage.clickFindACourse()
+    })
+    await test.step('Verify URL and results count', async () => {
+        await courseSearchPage.expectToBeOnSearchResultsPage()
+        await courseSearchPage.expectSearchPanelVisible()
+        await courseSearchPage.expectItemsCount(courseFullDataSearchValidData.itemCountFilterByName)
+    })
+})
+
+test('Search by partial Course name', async ({page}) => {
     const courseSearchPage = new CourseSearchPage(page)
     await test.step('Navigate to homepage', async () => {
         await courseSearchPage.goTo(baseUrl)

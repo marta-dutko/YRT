@@ -36,6 +36,7 @@ export default defineConfig({
         navigationTimeout: 30000,
         trace: 'on',
         headless: false,
+        screenshot: 'only-on-failure',
     },
 
     /* Configure projects for major browsers */

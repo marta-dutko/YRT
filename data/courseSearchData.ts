@@ -31,6 +31,26 @@ export const courseSearchValidData: CourseSearchData = {
     itemCountFilterByIndustry: 5
 }
 
+
+export const courseFullDataSearchValidData: CourseSearchData = {
+    courseId: 'CPCCLDG3001',
+    courseName: 'CPCCLDG3001 - Licence to perform dogging',
+    courseIndustry: 'Construction',
+    startDate: {
+        year:'2026' ,
+        month: 'December',
+        day: '7',
+    } ,
+    endDate: {
+        year:'2026' ,
+        month: 'December',
+        day: '11',
+    } ,
+    itemsCount: 1,
+    itemCountFilterByName: 19,
+    itemCountFilterByIndustry: 5
+}
+
 export const courseSearchInValidData: CourseSearchData = {
     courseId: '0000000',
     courseName: 'Test',

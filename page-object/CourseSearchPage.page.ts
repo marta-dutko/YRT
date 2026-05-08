@@ -86,7 +86,7 @@ export class CourseSearchPage extends BasePage {
         await this.endDateInput.click()
         await this.page.getByRole('button', {name: /calendar view is open, switch/i}).click()
         await this.page.getByRole('radio', {name: courseData.endDate.year}).click()
-        await navigateToMonth(this.page,courseData.startDate,calendarBtn, locatorName)
+        await navigateToMonth(this.page,courseData.endDate,calendarBtn, locatorName)
         await this.page.getByRole('gridcell', {name: courseData.endDate.day, exact: true}).first().click()
     }
 
