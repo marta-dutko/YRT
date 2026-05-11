@@ -76,6 +76,16 @@ export class EnrollmentPage {
     }
 
     /**
+     * Clicks a step button in the left sidebar, then waits for the step heading to appear.
+     * @param buttonName - The accessible name of the sidebar button (e.g. 'Uploads').
+     * @param headingName - The step heading to wait for after navigation; defaults to buttonName.
+     */
+    async clickSidebarStep(buttonName: string, headingName: string = buttonName): Promise<void> {
+        await this.page.getByRole('button', {name: buttonName}).click()
+        await this.expectStepToBeVisible(headingName)
+    }
+
+    /**
      * Waits for the element to be visible, then clicks it.
      * Guards against race conditions where the element exists in the DOM but is not yet interactable.
      * @param locator - The element to wait for and click.
