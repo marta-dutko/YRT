@@ -63,9 +63,8 @@ test.describe('Clear All', () => {
 
         // Step 2: Verify "Clear All" button is hidden on initial load
         await test.step('Verify Clear All button is not visible', async () => {
-            await page.waitForTimeout(500)
             const clearAllBtn = page.getByRole('button', { name: /clear all/i })
-            await clearAllBtn.waitFor({ state: 'hidden', timeout: 3000 }).catch(() => {
+            await clearAllBtn.waitFor({ state: 'hidden', timeout: 10000 }).catch(() => {
                 // acceptable if not in DOM at all
             })
         })

@@ -53,7 +53,6 @@ test.describe('Combined filters', () => {
 
         // Step 3: Verify the page is not broken (results or empty state)
         await test.step('Verify page renders without error', async () => {
-            await page.waitForTimeout(800)
             await page.waitForLoadState('load')
         })
     })

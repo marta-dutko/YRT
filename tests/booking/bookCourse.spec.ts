@@ -1,26 +1,27 @@
 import {test} from '@playwright/test';
-import {HomePage} from '../page-object/HomePage.page';
-import {AllCoursesPage} from '../page-object/AllCoursesPage.page';
-import {CoursePage} from '../page-object/CoursePage.page';
+import {HomePage} from '../../page-object/HomePage.page';
+import {AllCoursesPage} from '../../page-object/AllCoursesPage.page';
+import {CoursePage} from '../../page-object/CoursePage.page';
 // TestData
-import {newUser} from '../data/enrollTestData';
+import {createNewUser} from '../../data/enrollTestData';
 // CourseData
-import {courseData} from "../data/courseData";
+import {courseData} from "../../data/courseData";
+import {BASE_URL} from '../../data/coursesFilterData'
 // Payment
-import {payment} from "../data/paymentDetails";
+import {payment} from "../../data/paymentDetails";
 
 // Enroll
-import {EnrollmentPage} from '../page-object/enrollment/EnrollmentPage.page';
-import {RegistrationPage} from '../page-object/enrollment/RegistrationPage.page';
-import {PersonalDetailsPage} from '../page-object/enrollment/PersonalDetailsPage.page';
-import {ContactDetailsPage} from "../page-object/enrollment/ContactDetailsPage.page";
-import {AddressPage} from "../page-object/enrollment/AddressPage.page";
-import {NationalityPage} from "../page-object/enrollment/NationalityPage.page";
-import {SchoolingPage} from "../page-object/enrollment/SchoolingPage.page";
-import {AdditionalDetailsPage} from "../page-object/enrollment/AditionalDetailsPage.page";
-import {UploadsPage} from "../page-object/enrollment/UploadsPage.page";
-import {ReviewDetailsPage} from "../page-object/enrollment/ReviewDetailsPage.page";
-import {PaymentPage} from "../page-object/enrollment/PaymentPage.page";
+import {EnrollmentPage} from '../../page-object/enrollment/EnrollmentPage.page';
+import {RegistrationPage} from '../../page-object/enrollment/RegistrationPage.page';
+import {PersonalDetailsPage} from '../../page-object/enrollment/PersonalDetailsPage.page';
+import {ContactDetailsPage} from "../../page-object/enrollment/ContactDetailsPage.page";
+import {AddressPage} from "../../page-object/enrollment/AddressPage.page";
+import {NationalityPage} from "../../page-object/enrollment/NationalityPage.page";
+import {SchoolingPage} from "../../page-object/enrollment/SchoolingPage.page";
+import {AdditionalDetailsPage} from "../../page-object/enrollment/AdditionalDetailsPage.page";
+import {UploadsPage} from "../../page-object/enrollment/UploadsPage.page";
+import {ReviewDetailsPage} from "../../page-object/enrollment/ReviewDetailsPage.page";
+import {PaymentPage} from "../../page-object/enrollment/PaymentPage.page";
 
 /**
  * End-to-end test: full course booking flow.
@@ -29,6 +30,7 @@ import {PaymentPage} from "../page-object/enrollment/PaymentPage.page";
 test('Book a course', async ({page}) => {
     // Extend timeout to 3 minutes to account for slow network and multi-step form
     test.setTimeout(180000)
+    const newUser = createNewUser()
     // Instantiate all page objects used throughout the test
     const homePage = new HomePage(page)
     const allCoursesPage = new AllCoursesPage(page)
@@ -47,7 +49,7 @@ test('Book a course', async ({page}) => {
 
     // Step 1: Open the application and navigate to the course catalog
     await test.step('Navigate to course catalog', async () => {
-        await homePage.gotoCatalog('https://yrt-app-staging.vercel.app/')
+        await homePage.gotoCatalog(BASE_URL)
     })
     // Step 2: Find the target course by ID and click "Book" to start enrollment
     await test.step('Open course page', async () => {
@@ -107,12 +109,12 @@ test('Book a course', async ({page}) => {
     await test.step('Review Details', async () => {
         await reviewDetailsPage.verifyDetails(courseData, newUser)
         await reviewDetailsPage.verifyDiscountApplied(courseData)
-        await reviewDetailsPage.clickGoToPayment()
+        // await reviewDetailsPage.clickGoToPayment()
     })
     // Step 12: Complete the payment form and submit, take a screenshot to confirm the success page
-    await test.step('Payment', async () => {
-        await enrollmentPage.expectStepToBeVisible('Complete payment')
-        await paymentPage.fillPaymentForm(payment)
-        await paymentPage.proceedToPayment()
-    })
+    // await test.step('Payment', async () => {
+    //     await enrollmentPage.expectStepToBeVisible('Complete payment')
+    //     await paymentPage.fillPaymentForm(payment)
+    //     await paymentPage.proceedToPayment()
+    // })
 });

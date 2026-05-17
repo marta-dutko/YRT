@@ -1,6 +1,6 @@
 import { test, Response } from '@playwright/test'
-import { NavigationPage } from '../page-object/NavigationPage.page'
-import { navigationPages } from '../data/navigationData'
+import { NavigationPage } from '../../page-object/NavigationPage.page'
+import { navigationPages } from '../../data/navigationData'
 
 /**
  * Navigation smoke test suite.

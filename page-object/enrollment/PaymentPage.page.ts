@@ -1,12 +1,12 @@
 import {expect, Locator, Page} from "@playwright/test";
 import {Payment} from "../../data/paymentDetails";
+import {BasePage} from '../BasePage.page'
 
 /**
  * Page Object Model for the Payment page (eWay payment gateway).
  * Handles filling in credit card details and submitting the payment form.
  */
-export class PaymentPage {
-    private readonly page: Page
+export class PaymentPage extends BasePage {
     private readonly cardHolder: Locator
     private readonly cardNumber: Locator
     private readonly cardExpiryMonth: Locator  // Native <select> element for expiry month
@@ -14,7 +14,7 @@ export class PaymentPage {
     private readonly cardCVN: Locator
 
     constructor(page: Page) {
-        this.page = page
+        super(page)
         this.cardHolder = page.getByRole('textbox', {name: 'Card Holder'})
         this.cardNumber = page.getByRole('textbox', {name: 'Card Number'})
         this.cardExpiryMonth = page.locator('#EWAY_CARDEXPIRYMONTH')

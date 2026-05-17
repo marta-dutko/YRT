@@ -1,23 +1,27 @@
 import {expect, Locator, Page} from "@playwright/test";
 import {NewUser} from "../../data/enrollTestData";
 import {toast} from "../../helpers/toast.helper";
+import {BasePage} from '../BasePage.page'
 
 /**
  * Page Object Model for the Uploads step in the enrollment flow.
  * Manages uploading of identity documents (driver's license and passport),
  * verifies each file is processed successfully, and confirms upload via toast notification.
  */
-export class UploadsPage {
-    private readonly page: Page
+export class UploadsPage extends BasePage {
     // Section locators — each scoped to the parent element of its heading,
     // ensuring file inputs are targeted within the correct section only
     private readonly driverLicenceSection: Locator
     private readonly passportSection: Locator
 
     constructor(page: Page) {
-        this.page = page
-        this.driverLicenceSection = page.getByRole('heading', {name: 'Driver Licence'}).locator('..')
-        this.passportSection = page.getByRole('heading', {name: 'Passport'}).locator('..')
+        super(page)
+        this.driverLicenceSection = page.locator('div')
+            .filter({has: page.getByRole('heading', {name: 'Driver Licence', exact: true})})
+            .filter({hasNot: page.getByRole('heading', {name: 'Passport', exact: true})})
+        this.passportSection = page.locator('div')
+            .filter({has: page.getByRole('heading', {name: 'Passport', exact: true})})
+            .filter({hasNot: page.getByRole('heading', {name: 'Driver Licence', exact: true})})
     }
 
     /**

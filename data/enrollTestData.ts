@@ -116,4 +116,3 @@ export function createNewUser(): NewUser {
     }
 }
 
-export const newUser: NewUser = createNewUser()

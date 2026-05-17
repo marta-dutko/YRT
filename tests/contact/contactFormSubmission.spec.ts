@@ -1,7 +1,8 @@
 import {test} from '@playwright/test';
-import {SendMessage} from '../page-object/SendMessage.page';
-import {contactFormData} from "../data/formTestData";
-import {HomePage} from "../page-object/HomePage.page";
+import {SendMessage} from '../../page-object/SendMessage.page';
+import {contactFormData} from "../../data/formTestData";
+import {HomePage} from "../../page-object/HomePage.page";
+import {BASE_URL} from '../../data/coursesFilterData'
 
 /**
  * E2E test: Contact form submission on the home page.
@@ -15,7 +16,7 @@ test('Form submission', async ({page}) => {
 
     // Step 1: Navigate to the home page, fill in the contact form, and submit it
     await test.step('Send Contact form.', async () => {
-        await homePage.goToHomePage('https://yrt-app-staging.vercel.app/')
+        await homePage.goToHomePage(BASE_URL)
         await sendMessage.fillContactUsForm(contactFormData)
         await sendMessage.submitForm()
     })
@@ -23,6 +24,7 @@ test('Form submission', async ({page}) => {
     // Step 2: Assert that a success message is displayed after form submission
     await test.step('Verify success message', async () => {
         await sendMessage.checkSuccessMessage()
+        await page.screenshot({path: `success-${Date.now()}.png`})
     });
 });
 

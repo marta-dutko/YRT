@@ -3,6 +3,7 @@ import {RegistrationPage} from "../../page-object/enrollment/RegistrationPage.pa
 import {existingUser} from "../../data/enrollTestData";
 import {courseData} from "../../data/courseData";
 import {HomePage} from "../../page-object/HomePage.page";
+import {BASE_URL} from '../../data/coursesFilterData'
 import {AllCoursesPage} from "../../page-object/AllCoursesPage.page";
 import {CoursePage} from "../../page-object/CoursePage.page";
 
@@ -20,7 +21,7 @@ test('Existing email shows duplicate toast', async ({page}) => {
 
     // Step 1: Open the application and navigate to the course catalog
     await test.step('Navigate to course catalog', async () => {
-        await homePage.gotoCatalog('https://yrt-app-staging.vercel.app/')
+        await homePage.gotoCatalog(BASE_URL)
     })
 
     // Step 2: Find the target course by ID and click "Book" to start enrollment

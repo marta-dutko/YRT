@@ -6,7 +6,11 @@
   "scripts": {
     "tesUI": "npx playwright test --ui",
     "debugPl": "npx playwright test --debug",
-    "bookCourse": "npx playwright test tests/bookCourse.spec.ts"
+    "test:courses-filter": "playwright test tests/courses-filter/",
+    "test:contact": "playwright test tests/contact/",
+    "test:general": "playwright test tests/general/",
+    "test:enrollment": "playwright test tests/enrollment/",
+    "bookCourse": "npx playwright test tests/booking/bookCourse.spec.ts"
   },
   "keywords": [],
   "author": "",

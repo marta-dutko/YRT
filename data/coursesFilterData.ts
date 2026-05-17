@@ -1,6 +1,7 @@
 export const BASE_URL = 'https://yrt-app-staging.vercel.app'
 export const COURSES_URL = `${BASE_URL}/courses`
 
+
 export interface FilterOption {
     param: string    // URL query parameter name
     value: string    // input[value] and URL param value

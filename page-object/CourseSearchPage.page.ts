@@ -8,7 +8,6 @@ import {navigateToMonth} from "../helpers/navigateToMonthCalendar.helper";
  * Handles search form interactions, date picker navigation, and result assertions.
  */
 export class CourseSearchPage extends BasePage {
-    protected readonly page: Page
     // Search form
     private readonly courseNameInput: Locator
     private readonly industryDropdown: Locator  // Dropdown trigger for filtering by industry
@@ -22,7 +21,6 @@ export class CourseSearchPage extends BasePage {
 
     constructor(page: Page) {
         super(page)
-        this.page = page
         this.courseNameInput = page.getByPlaceholder('Search by course name')
         this.industryDropdown = page.locator('button[aria-controls="home-course-industry-menu"]')
         this.startDateInput = page.getByRole('button', {name: 'Start Date, date picker'})
@@ -66,7 +64,7 @@ export class CourseSearchPage extends BasePage {
     async fillStartDate(courseData: CourseSearchData): Promise<void> {
         // Calendar navigation config - shared with fillEndDate
         const calendarBtn:string='Next month'
-        const locatorName:string='.MuiPickersCalendarHeader-label'
+        const locatorName:string= '.MuiPickersCalendarHeader-label'
         await this.startDateInput.click()
         await this.page.getByRole('button', {name: /calendar view is open, switch/i}).click()
         await this.page.getByRole('radio', {name: courseData.startDate.year}).click()
@@ -82,7 +80,7 @@ export class CourseSearchPage extends BasePage {
      */
     async fillEndDate(courseData: CourseSearchData): Promise<void> {
         const calendarBtn:string='Next month'
-        const locatorName:string='.MuiPickersCalendarHeader-label'
+        const locatorName:string= '.MuiPickersCalendarHeader-label'
         await this.endDateInput.click()
         await this.page.getByRole('button', {name: /calendar view is open, switch/i}).click()
         await this.page.getByRole('radio', {name: courseData.endDate.year}).click()

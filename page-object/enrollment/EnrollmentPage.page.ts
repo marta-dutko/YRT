@@ -1,13 +1,12 @@
-import {Locator, Page} from "@playwright/test"
-import {expect} from "@playwright/test"
+import {expect, Locator, Page} from "@playwright/test"
+import {BasePage} from '../BasePage.page'
 
 /**
  * Page Object Model for the multi-step Enrollment page.
  * Manages step navigation (Next / Previous), step visibility assertions,
  * and provides a safe click utility to prevent flaky interactions.
  */
-export class EnrollmentPage {
-    private readonly page: Page
+export class EnrollmentPage extends BasePage {
     private readonly nextBtn: Locator
     private readonly previousBtn: Locator
     private readonly logInAsDifferentUserBtn: Locator
@@ -15,7 +14,7 @@ export class EnrollmentPage {
     private readonly stepTitle: (stepName: string) => Locator
 
     constructor(page: Page) {
-        this.page = page
+        super(page)
         this.nextBtn = page.getByRole('button', {name: 'Next Step'})
         this.previousBtn = page.getByRole('button', {name: 'Previous Step'})
         this.logInAsDifferentUserBtn = page.getByRole('button', {

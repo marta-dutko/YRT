@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test } from '@playwright/test'
 import { CoursesFilterPage } from '../../page-object/CoursesFilterPage.page'
 import { COURSES_URL } from '../../data/coursesFilterData'
 
@@ -23,12 +23,6 @@ test.describe('URL integrity', () => {
             await coursesPage.assertFilterChecked('accredited')
             await coursesPage.assertFilterChecked('new_south_wales')
         })
-
-        // // Step 3: Confirm both params remain in the URL after load
-        // await test.step('Verify URL still contains both params', async () => {
-        //     await coursesPage.assertURLParam('type', 'accredited')
-        //     await coursesPage.assertURLParam('location', 'new_south_wales')
-        // })
     })
 
     test('Refresh — filter state is preserved after page reload', async ({ page }) => {
@@ -44,7 +38,6 @@ test.describe('URL integrity', () => {
         await test.step('Reload the page', async () => {
             await page.reload()
             await page.waitForLoadState('load')
-            await page.waitForTimeout(800)
         })
 
         // Step 3: Verify the filter param and checkbox are still active
@@ -70,7 +63,7 @@ test.describe('URL integrity', () => {
         // Step 3: Go back — URL should be clean (no params)
         await test.step('Navigate back and verify clean URL', async () => {
             await page.goBack()
-            await page.waitForTimeout(700)
+            await page.waitForLoadState('load')
             await coursesPage.assertURLHasNoParams()
         })
     })
@@ -83,33 +76,15 @@ test.describe('URL integrity', () => {
             await coursesPage.goTo(COURSES_URL)
             await coursesPage.selectFilter('accredited')
             await page.goBack()
-            await page.waitForTimeout(700)
+            await page.waitForLoadState('load')
         })
 
         // Step 2: Navigate forward and verify filter is restored
         await test.step('Navigate forward — verify filter is active', async () => {
             await page.goForward()
-            await page.waitForTimeout(700)
+            await page.waitForLoadState('load')
             await coursesPage.assertURLParam('type', 'accredited')
             await coursesPage.assertFilterChecked('accredited')
         })
     })
-
-    // test('Same-group multi-select produces repeated URL param', async ({ page }) => {
-    //     const coursesPage = new CoursesFilterPage(page)
-    //
-    //     // Step 1: Apply two filters from the same Type group
-    //     await test.step('Select both Type filters', async () => {
-    //         await coursesPage.goTo(COURSES_URL)
-    //         await coursesPage.selectFilter('accredited')
-    //         await coursesPage.selectFilter('workshop')
-    //     })
-    //
-    //     // Step 2: Verify URL has type param repeated for both values
-    //     await test.step('Verify URL has type=accredited and type=workshop', async () => {
-    //         await coursesPage.assertURLParam('type', 'accredited')
-    //         await coursesPage.assertURLParam('type', 'workshop')
-    //         expect(coursesPage.getURLParams().getAll('type')).toHaveLength(2)
-    //     })
-    // })
 })

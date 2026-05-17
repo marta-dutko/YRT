@@ -47,7 +47,7 @@ export const courseFullDataSearchValidData: CourseSearchData = {
         day: '11',
     } ,
     itemsCount: 1,
-    itemCountFilterByName: 19,
+    itemCountFilterByName: 1,
     itemCountFilterByIndustry: 5
 }
 
@@ -56,8 +56,8 @@ export const courseSearchInValidData: CourseSearchData = {
     courseName: 'Test',
     courseIndustry: 'Construction',
     startDate: {
-        year:'2026' ,
-        month: 'April',
+        year:'2027' ,
+        month: 'January',
         day: '7',
     } ,
     endDate: {

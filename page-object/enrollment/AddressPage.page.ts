@@ -1,14 +1,14 @@
 import {Locator, Page} from "@playwright/test"
 import {NewUser} from "../../data/enrollTestData";
 import {selectDropdownOption} from "../../helpers/dropdown.helper";
+import {BasePage} from '../BasePage.page'
 
 /**
  * Page Object Model for the Address step of the enrollment flow.
  * Handles filling in the user's residential address, including
  * state and country selection via dropdowns.
  */
-export class AddressPage {
-    private readonly page: Page
+export class AddressPage extends BasePage {
     // Address text fields
     private readonly buildingName: Locator
     private readonly flatDetails: Locator
@@ -21,7 +21,7 @@ export class AddressPage {
     private readonly countryDropdown: Locator  // Dropdown trigger for selecting the residential country
 
     constructor(page: Page) {
-        this.page = page
+        super(page)
         this.buildingName = page.getByPlaceholder('Input building/property name')
         this.flatDetails = page.getByPlaceholder('Input flat/unit details')
         this.streetNumber = page.getByPlaceholder('Input street or lot number')

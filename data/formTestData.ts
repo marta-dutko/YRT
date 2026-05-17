@@ -1,5 +1,6 @@
 import {faker} from "@faker-js/faker";
 import {ContactFormUrls} from "./enrollTestData";
+import {BASE_URL} from './coursesFilterData'
 
 export interface ContactForm {
     fullNameField: string,
@@ -19,19 +20,19 @@ export const contactFormData: ContactForm = {
 
 // url contact us form
 export const contactFormUrls:ContactFormUrls[]=[
-    {name:'home-page', url:'https://yrt-app-staging.vercel.app/'},
-    {name:'course-page', url:'https://yrt-app-staging.vercel.app/courses/76602'},
-    {name:'for-students-page', url:'https://yrt-app-staging.vercel.app/for-students'},
-    {name:'for-business-page', url:'https://yrt-app-staging.vercel.app/for-business'},
-    {name:'training-trailer', url:'https://yrt-app-staging.vercel.app/training-trailer'},
-    {name:'about-us-page', url:'https://yrt-app-staging.vercel.app/about-us'},
-    {name:'contact-ua-page', url:'https://yrt-app-staging.vercel.app/contact-us'},
-    {name:'location-NSW-page', url:'https://yrt-app-staging.vercel.app/contact-us/new-south-wales'},
-    {name:'location-WA-page', url:'https://yrt-app-staging.vercel.app/contact-us/western-australia'},
-    {name:'location-VIC-page', url:'https://yrt-app-staging.vercel.app/contact-us/victoria'},
-    {name:'location-QUE-page', url:'https://yrt-app-staging.vercel.app/contact-us/queensland'},
-    {name:'resources-page', url:'https://yrt-app-staging.vercel.app/resources/unique-student-identifier'},
-    {name:'resources-NSW-page', url:'https://yrt-app-staging.vercel.app/resources/smart-skilled-nsw'},
-    {name:'resources-training-WA-page', url:'https://yrt-app-staging.vercel.app/resources/construction-training-fund-wa'},
-    {name:'resources-jobs-WA-page', url:'https://yrt-app-staging.vercel.app/resources/jobs-and-skills-wa'},
+    {name:'home-page',                url:`${BASE_URL}/`},
+    {name:'course-page',              url:`${BASE_URL}/courses/76602`},
+    {name:'for-students-page',        url:`${BASE_URL}/for-students`},
+    {name:'for-business-page',        url:`${BASE_URL}/for-business`},
+    {name:'training-trailer',         url:`${BASE_URL}/training-trailer`},
+    {name:'about-us-page',            url:`${BASE_URL}/about-us`},
+    {name:'contact-ua-page',          url:`${BASE_URL}/contact-us`},
+    {name:'location-NSW-page',        url:`${BASE_URL}/contact-us/new-south-wales`},
+    {name:'location-WA-page',         url:`${BASE_URL}/contact-us/western-australia`},
+    {name:'location-VIC-page',        url:`${BASE_URL}/contact-us/victoria`},
+    {name:'location-QUE-page',        url:`${BASE_URL}/contact-us/queensland`},
+    {name:'resources-page',           url:`${BASE_URL}/resources/unique-student-identifier`},
+    {name:'resources-NSW-page',       url:`${BASE_URL}/resources/smart-skilled-nsw`},
+    {name:'resources-training-WA-page', url:`${BASE_URL}/resources/construction-training-fund-wa`},
+    {name:'resources-jobs-WA-page',   url:`${BASE_URL}/resources/jobs-and-skills-wa`},
 ]

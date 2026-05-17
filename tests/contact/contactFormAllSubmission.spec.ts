@@ -1,6 +1,6 @@
 import {test} from '@playwright/test';
-import {SendMessage} from '../page-object/SendMessage.page';
-import {contactFormData, contactFormUrls} from "../data/formTestData";
+import {SendMessage} from '../../page-object/SendMessage.page';
+import {contactFormData, contactFormUrls} from "../../data/formTestData";
 
 /**
  * Parameterized test suite: Contact form submission.
@@ -16,7 +16,7 @@ for (const form of contactFormUrls) {
 
         // Step 1: Navigate to the page that contains the contact form
         await test.step('Open page', async () => {
-            await page.goto(form.url);
+            await sendMessage.goTo(form.url);
         });
 
         // Step 2: Fill in all required fields with test data and submit the form

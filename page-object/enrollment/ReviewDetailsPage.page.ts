@@ -1,14 +1,14 @@
 import {expect, Locator, Page} from "@playwright/test";
 import {CourseData} from "../../data/courseData";
 import {NewUser} from "../../data/enrollTestData";
+import {BasePage} from '../BasePage.page'
 
 /**
  * Page Object Model for the Review Details step of the enrollment flow.
  * Displays a summary of the selected course and user details for verification,
  * and allows applying a discount code before proceeding to payment.
  */
-export class ReviewDetailsPage {
-    private readonly page: Page
+export class ReviewDetailsPage extends BasePage {
     // Read-only summary fields - values are rendered as placeholder attributes
     private readonly courseInstance: Locator
     private readonly userFullName: Locator
@@ -23,7 +23,7 @@ export class ReviewDetailsPage {
     private readonly goToPaymentBtn: Locator
 
     constructor(page: Page) {
-        this.page = page
+        super(page)
         this.courseInstance = page.locator('#input-review_course')
         this.userFullName = page.locator('#input-review_name')
         this.courseDate = page.locator('#input-review_date')

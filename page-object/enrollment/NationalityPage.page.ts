@@ -1,14 +1,14 @@
 import {Locator, Page} from '@playwright/test';
 import {NewUser} from "../../data/enrollTestData";
 import {selectDropdownOption} from "../../helpers/dropdown.helper";
+import {BasePage} from '../BasePage.page'
 
 /**
  * Page Object Model for the Nationality step of the enrollment flow.
  * Handles filling in the user's country of birth, city of birth,
  * citizenship status, native language, and English proficiency.
  */
-export class NationalityPage {
-    private readonly page: Page
+export class NationalityPage extends BasePage {
     private readonly countryOfBirthDropdown: Locator       // Dropdown for selecting country of birth
     private readonly cityOfBirth: Locator
     private readonly citizenshipStatusDropdown: Locator    // Dropdown for selecting citizenship/visa status
@@ -16,7 +16,7 @@ export class NationalityPage {
     private readonly englishProficiencyDropdown: Locator   // Dropdown for selecting English proficiency level
 
     constructor(page: Page) {
-        this.page = page
+        super(page)
         this.countryOfBirthDropdown = page.locator('button[aria-controls="country-of-birth-menu"]')
         this.cityOfBirth = page.getByPlaceholder('Input city of birth')
         this.citizenshipStatusDropdown = page.locator('button[aria-controls="citizenship-status-menu"]')

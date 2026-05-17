@@ -1,13 +1,13 @@
 import {Locator, Page} from '@playwright/test';
 import {NewUser} from "../../data/enrollTestData";
+import {BasePage} from '../BasePage.page'
 
 /**
  * Page Object Model for the Contact Details step of the enrollment flow.
  * Handles filling in professional information, phone numbers,
  * and emergency contact details.
  */
-export class ContactDetailsPage {
-    private readonly page: Page
+export class ContactDetailsPage extends BasePage {
     // Professional info
     private readonly organisation: Locator
     private readonly position: Locator
@@ -21,7 +21,7 @@ export class ContactDetailsPage {
     private readonly emergencyPhoneNumber: Locator  // Last "10-digit number" input on the page
 
     constructor(page: Page) {
-        this.page = page
+        super(page)
         this.organisation = page.getByPlaceholder('Input your organisation name')
         this.position = page.getByPlaceholder('Input your job position')
         this.mobilePhone = page.getByPlaceholder('10-digit number').first()

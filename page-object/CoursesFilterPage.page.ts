@@ -49,14 +49,14 @@ export class CoursesFilterPage extends BasePage {
      * @param value - Expected value for that parameter.
      */
     async assertURLParam(param: string, value: string): Promise<void> {
-        expect(this.getURLParams().getAll(param)).toContain(value)
+        await expect.poll(() => new URL(this.page.url()).searchParams.getAll(param)).toContain(value)
     }
 
     /**
      * Asserts the current URL has no query parameters (clean URL after Clear All or initial load).
      */
     async assertURLHasNoParams(): Promise<void> {
-        expect(this.getURLParams().toString()).toBe('')
+        await expect.poll(() => new URL(this.page.url()).searchParams.toString()).toBe('')
     }
 
     /**
@@ -64,7 +64,7 @@ export class CoursesFilterPage extends BasePage {
      * @param param - Parameter name that must not be present.
      */
     async assertURLMissingParam(param: string): Promise<void> {
-        expect(this.getURLParams().has(param)).toBe(false)
+        await expect.poll(() => new URL(this.page.url()).searchParams.has(param)).toBe(false)
     }
 
     // --- Filter actions ---
@@ -75,7 +75,7 @@ export class CoursesFilterPage extends BasePage {
      */
     async selectFilter(value: string): Promise<void> {
         await this.page.locator(`input[type="checkbox"][value="${value}"]`).click()
-        await this.page.waitForTimeout(500)
+        await this.page.waitForURL(url => url.href.includes(value), {timeout: 15000})
     }
 
     /**
@@ -84,7 +84,7 @@ export class CoursesFilterPage extends BasePage {
     async clearAll(): Promise<void> {
         await expect(this.clearAllBtn).toBeVisible()
         await this.clearAllBtn.click()
-        await this.page.waitForTimeout(500)
+        await expect(this.clearAllBtn).toBeDisabled({timeout: 10000})
     }
 
     /**
@@ -93,7 +93,7 @@ export class CoursesFilterPage extends BasePage {
      */
     async setPerPage(value: string): Promise<void> {
         await this.perPageSelect.selectOption(value)
-        await this.page.waitForTimeout(800)
+        await expect(this.resultCounter).toBeVisible({timeout: 15000})
     }
 
     /**
@@ -104,7 +104,7 @@ export class CoursesFilterPage extends BasePage {
         await this.page.getByRole('button', { name: `Page ${num}`, exact: true })
             .first()
             .click()
-        await this.page.waitForTimeout(700)
+        await expect(this.courseCards.first()).toBeVisible({timeout: 15000})
     }
 
     // --- Filter state assertions ---
@@ -188,7 +188,6 @@ export class CoursesFilterPage extends BasePage {
     async openFirstCourse(): Promise<void> {
         await this.courseCards.first().click()
         await this.page.waitForLoadState('load')
-        await this.page.waitForTimeout(800)
     }
 
     /**
@@ -225,7 +224,7 @@ export class CoursesFilterPage extends BasePage {
      */
     async switchToCalendar(): Promise<void> {
         await this.calendarToggleBtn.click()
-        await this.page.waitForTimeout(800)
+        await this.page.waitForURL(/mode=calendar/, {timeout: 10000})
     }
 
     /**
@@ -233,7 +232,7 @@ export class CoursesFilterPage extends BasePage {
      */
     async switchToList(): Promise<void> {
         await this.listToggleBtn.click()
-        await this.page.waitForTimeout(800)
+        await this.page.waitForURL(url => !url.searchParams.has('mode'), {timeout: 10000})
     }
 
     /**
@@ -257,7 +256,6 @@ export class CoursesFilterPage extends BasePage {
     async clickFirstSession(): Promise<void> {
         await this.calendarSessions.first().click()
         await this.page.waitForLoadState('load')
-        await this.page.waitForTimeout(800)
     }
 
     /**

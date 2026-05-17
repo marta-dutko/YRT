@@ -1,12 +1,11 @@
 import {test} from "@playwright/test";
-import {CourseSearchPage} from "../page-object/CourseSearchPage.page";
+import {CourseSearchPage} from "../../page-object/CourseSearchPage.page";
 
 // Valid data: correct filter values with expected result counts
 // Invalid data: values that should return zero results
-import {courseFullDataSearchValidData, courseSearchInValidData, courseSearchValidData} from "../data/courseSearchData";
+import {courseFullDataSearchValidData, courseSearchInValidData, courseSearchValidData} from "../../data/courseSearchData";
 
-// Base URL for the staging environment used across all search tests
-const baseUrl: string = 'https://yrt-app-staging.vercel.app/'
+import {BASE_URL} from '../../data/coursesFilterData'
 
 /**
  * Suite 1: Empty search — no filters applied.
@@ -16,7 +15,7 @@ const baseUrl: string = 'https://yrt-app-staging.vercel.app/'
 test('Empty search redirects to courses with searchMode=true', async ({page}) => {
     const courseSearchPage = new CourseSearchPage(page)
     await test.step('Navigate to homepage', async () => {
-        await courseSearchPage.goTo(baseUrl)
+        await courseSearchPage.goTo(BASE_URL)
     })
     await test.step('Click Find a Course without filters', async () => {
         await courseSearchPage.clickFindACourse()
@@ -34,7 +33,7 @@ test('Empty search redirects to courses with searchMode=true', async ({page}) =>
 test('Search by full course name ', async ({page}) => {
     const courseSearchPage = new CourseSearchPage(page)
     await test.step('Navigate to homepage', async () => {
-        await courseSearchPage.goTo(baseUrl)
+        await courseSearchPage.goTo(BASE_URL)
     })
     await test.step('Fill course name and submit', async () => {
         await courseSearchPage.fillCourseName(courseFullDataSearchValidData)
@@ -50,7 +49,7 @@ test('Search by full course name ', async ({page}) => {
 test('Search by partial Course name', async ({page}) => {
     const courseSearchPage = new CourseSearchPage(page)
     await test.step('Navigate to homepage', async () => {
-        await courseSearchPage.goTo(baseUrl)
+        await courseSearchPage.goTo(BASE_URL)
     })
     await test.step('Fill course name and submit', async () => {
         await courseSearchPage.fillCourseName(courseSearchValidData)
@@ -70,7 +69,7 @@ test('Search by partial Course name', async ({page}) => {
 test('Search by industry', async ({page}) => {
     const courseSearchPage = new CourseSearchPage(page)
     await test.step('Navigate to homepage', async () => {
-        await courseSearchPage.goTo(baseUrl)
+        await courseSearchPage.goTo(BASE_URL)
     })
     await test.step('Select industry', async () => {
         await courseSearchPage.selectIndustry(courseSearchValidData)
@@ -90,7 +89,7 @@ test('Search by industry', async ({page}) => {
 test('Search by dates', async ({page}) => {
     const courseSearchPage = new CourseSearchPage(page)
     await test.step('Navigate to homepage', async () => {
-        await courseSearchPage.goTo(baseUrl)
+        await courseSearchPage.goTo(BASE_URL)
     })
     await test.step('Fill start and end date and submit', async () => {
         await courseSearchPage.fillStartDate(courseSearchValidData)
@@ -112,7 +111,7 @@ test('Search by dates', async ({page}) => {
 test('Combined search (all filters)', async ({page}) => {
     const courseSearchPage = new CourseSearchPage(page)
     await test.step('Navigate to homepage', async () => {
-        await courseSearchPage.goTo(baseUrl)
+        await courseSearchPage.goTo(BASE_URL)
     })
     await test.step('Fill all filters and submit', async () => {
         await courseSearchPage.fillCourseName(courseSearchValidData)
@@ -136,7 +135,7 @@ test('Combined search (all filters)', async ({page}) => {
 test('Nothing found state ', async ({page}) => {
     const courseSearchPage = new CourseSearchPage(page)
     await test.step('Navigate to homepage', async () => {
-        await courseSearchPage.goTo(baseUrl)
+        await courseSearchPage.goTo(BASE_URL)
     })
     await test.step('Fill all filters with invalid data and submit', async () => {
         await courseSearchPage.fillCourseName(courseSearchInValidData)

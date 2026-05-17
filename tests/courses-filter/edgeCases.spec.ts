@@ -58,7 +58,7 @@ test.describe('Edge cases', () => {
             for (const value of filters) {
                 await page.locator(`input[type="checkbox"][value="${value}"]`).click()
             }
-            await page.waitForTimeout(800)
+            await page.waitForLoadState('load')
         })
 
         // Step 3: Verify the page has not crashed and filter panel is still functional

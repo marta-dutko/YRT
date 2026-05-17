@@ -1,12 +1,12 @@
 import {expect, Locator, Page} from '@playwright/test';
 import {ContactForm} from "../data/formTestData";
+import {BasePage} from './BasePage.page'
 
 /**
  * Page Object Model for the "Contact Us" form
  * Encapsulates all locators and actions related to submitting a contact form.
  */
-export class SendMessage {
-    private readonly page: Page
+export class SendMessage extends BasePage {
     // Form field locators
     private readonly fullNameField: Locator
     private readonly stateField: Locator  // Dropdown trigger button
@@ -19,7 +19,7 @@ export class SendMessage {
     private readonly successMessage: Locator // Confirmation text shown after successful submission
 
     constructor(page: Page) {
-        this.page = page
+        super(page)
         this.fullNameField = page.getByLabel('Full name')
         this.stateField = page.getByRole('button', {name: 'State'})
         this.optionField = page.getByRole('menuitemradio', {name: 'New South Wales'})
@@ -54,11 +54,9 @@ export class SendMessage {
     }
 
     /**
-     * Takes a timestamped screenshot and asserts that the success message is visible.
-     * Waits up to 10 seconds for the confirmation element to appear.
+     * Asserts that the success message is visible after form submission.
      */
     async checkSuccessMessage(): Promise<void> {
-        await this.page.screenshot({path: `success-${Date.now()}.png`});
         await expect(this.successMessage).toBeVisible({timeout: 10000});
     }
 }

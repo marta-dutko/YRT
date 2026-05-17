@@ -1,15 +1,15 @@
-import {Locator, Page} from "@playwright/test"
+import {expect, Locator, Page} from "@playwright/test"
 import {selectDropdownOption} from '../../helpers/dropdown.helper';
 import {NewUser} from "../../data/enrollTestData"
 import {DayData} from "../../data/interfaces";
+import {BasePage} from '../BasePage.page'
 
 /**
  * Page Object Model for the Personal Details step of the enrollment flow.
  * Handles filling in personal information including title, name fields,
  * date of birth via a calendar picker, and gender.
  */
-export class PersonalDetailsPage {
-    private readonly page: Page
+export class PersonalDetailsPage extends BasePage {
     private readonly titleDropdown: Locator         // Dropdown trigger for selecting title (Mr, Ms, etc.)
     private readonly preferredName: Locator
     private readonly middleName: Locator
@@ -22,7 +22,7 @@ export class PersonalDetailsPage {
     private readonly genderDropdown: Locator        // Dropdown trigger for selecting gender
 
     constructor(page: Page) {
-        this.page = page
+        super(page)
         this.titleDropdown = page.locator('button[aria-controls="title-menu"]')
         this.preferredName = page.getByPlaceholder('Input preferred name')
         this.middleName = page.getByPlaceholder('Input middle name')
@@ -42,9 +42,15 @@ export class PersonalDetailsPage {
      * @param targetMonth - Month name to navigate to (e.g. "March").
      */
     async navigateToMonth(targetMonth: string): Promise<void> {
+        const MAX_CLICKS = 24
+        let clicks = 0
         while (!(await this.calendarContainer.innerText()).includes(targetMonth)) {
+            if (clicks++ >= MAX_CLICKS) {
+                throw new Error(`Month "${targetMonth}" not reached after ${MAX_CLICKS} clicks`)
+            }
+            const currentText = await this.calendarContainer.innerText()
             await this.previousMonth.click()
-            await this.page.waitForTimeout(100) // Brief pause to allow calendar re-render
+            await expect(this.calendarContainer).not.toContainText(currentText, {timeout: 5000})
         }
     }
 

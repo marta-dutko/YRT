@@ -1,13 +1,13 @@
-import {Locator, Page} from "@playwright/test"
+import {expect, Locator, Page} from "@playwright/test"
 import {ExistingUser, NewUser} from "../../data/enrollTestData"
 import {toast} from "../../helpers/toast.helper";
+import {BasePage} from '../BasePage.page'
 
 /**
  * Page Object Model for the Registration page.
  * Handles filling in new user details and submitting the registration form.
  */
-export class RegistrationPage {
-    private readonly page: Page
+export class RegistrationPage extends BasePage {
     private readonly givenName: Locator
     private readonly lastName: Locator
     private readonly email: Locator
@@ -17,7 +17,7 @@ export class RegistrationPage {
     private readonly duplicateToast: Locator
 
     constructor(page: Page) {
-        this.page = page
+        super(page)
         this.givenName = page.getByRole('textbox', {name: 'Given name'})
         this.lastName = page.getByRole('textbox', {name: 'Last name'})
         this.email = page.getByRole('textbox', {name: 'Email'})

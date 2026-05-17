@@ -1,9 +1,10 @@
 import { test } from '@playwright/test';
 import {EnrollmentPage} from "../../page-object/enrollment/EnrollmentPage.page";
 import {RegistrationPage} from "../../page-object/enrollment/RegistrationPage.page";
-import {newUser} from "../../data/enrollTestData";
+import {createNewUser} from "../../data/enrollTestData";
 import {courseData} from "../../data/courseData";
 import {HomePage} from "../../page-object/HomePage.page";
+import {BASE_URL} from '../../data/coursesFilterData'
 import {AllCoursesPage} from "../../page-object/AllCoursesPage.page";
 import {CoursePage} from "../../page-object/CoursePage.page";
 
@@ -13,7 +14,8 @@ import {CoursePage} from "../../page-object/CoursePage.page";
  *
  * Flow: Home → Course Catalog → Course Page → Booking → Register → Switch user → Registration step
  */
-test('Existing email shows duplicate toast', async ({page}) => {
+test('Log in as different user resets flow to Registration', async ({page}) => {
+    const newUser = createNewUser()
     const homePage = new HomePage(page)
     const allCoursesPage = new AllCoursesPage(page)
     const coursePage = new CoursePage(page)
@@ -22,7 +24,7 @@ test('Existing email shows duplicate toast', async ({page}) => {
 
     // Step 1: Open the application and navigate to the course catalog
     await test.step('Navigate to course catalog', async () => {
-        await homePage.gotoCatalog('https://yrt-app-staging.vercel.app/')
+        await homePage.gotoCatalog(BASE_URL)
     })
 
     // Step 2: Find the target course by ID and click "Book" to start enrollment

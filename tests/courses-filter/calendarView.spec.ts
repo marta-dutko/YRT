@@ -160,13 +160,8 @@ test.describe('Calendar view', () => {
 
                 await test.step(`Apply filter ${filter.param}=${filter.value}`, async () => {
                     await coursesPage.selectFilter(filter.value)
-                    // Wait until the URL reflects the applied filter — confirms the app committed the change
-                    await page.waitForURL(
-                        (url) => url.searchParams.getAll(filter.param).includes(filter.value),
-                        { timeout: 5000 }
-                    )
-                    // Short pause for FullCalendar to finish DOM re-render after URL update
-                    await page.waitForTimeout(500)
+                    // Wait for FullCalendar container to be visible — confirms events (or empty state) are rendered
+                    await page.locator('.fc-view-harness').waitFor({state: 'visible', timeout: 10000})
                 })
 
                 await test.step('Count sessions after applying filter', async () => {

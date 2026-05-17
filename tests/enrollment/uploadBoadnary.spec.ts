@@ -1,14 +1,14 @@
 import {test} from '@playwright/test'
-import { HomePage} from "../page-object/HomePage.page";
-import {AllCoursesPage} from '../page-object/AllCoursesPage.page'
-import {CoursePage} from '../page-object/CoursePage.page'
-import {EnrollmentPage} from '../page-object/enrollment/EnrollmentPage.page'
-import {RegistrationPage} from '../page-object/enrollment/RegistrationPage.page'
-import {UploadsPage} from '../page-object/enrollment/UploadsPage.page'
-import {createNewUser} from '../data/enrollTestData'
-import {courseData} from '../data/courseData'
-import {generateTestFile, deleteTestFile} from '../helpers/generateTestFile.helper'
-import {BASE_URL} from '../data/coursesFilterData'
+import { HomePage} from "../../page-object/HomePage.page";
+import {AllCoursesPage} from '../../page-object/AllCoursesPage.page'
+import {CoursePage} from '../../page-object/CoursePage.page'
+import {EnrollmentPage} from '../../page-object/enrollment/EnrollmentPage.page'
+import {RegistrationPage} from '../../page-object/enrollment/RegistrationPage.page'
+import {UploadsPage} from '../../page-object/enrollment/UploadsPage.page'
+import {createNewUser} from '../../data/enrollTestData'
+import {courseData} from '../../data/courseData'
+import {generateTestFile, deleteTestFile} from '../../helpers/generateTestFile.helper'
+import {BASE_URL} from '../../data/coursesFilterData'
 
 const MB = 1024 * 1024
 const FILES = {
