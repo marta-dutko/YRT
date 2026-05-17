@@ -32,7 +32,6 @@ test.describe('Pagination with filters', () => {
 
             // Step 4: Verify the number of visible cards does not exceed the selected value
             await test.step('Verify visible card count is within per-page limit', async () => {
-                // const cards = page.locator('article')
                 const cards = page.locator('span.bg-orange-500:visible', { hasText: 'Accredited' })
                 const count = await cards.count()
                 expect(count).toBeLessThanOrEqual(Number(perPage))

@@ -44,13 +44,11 @@ export interface ContactFormUrls {
     url:string
 }
 
-//
 export interface ExistingUser{
     givenName: string,
     lastName: string,
     email: string,
 }
-//
 export const existingUser:ExistingUser={
     givenName: 'test',
     lastName: 'test',

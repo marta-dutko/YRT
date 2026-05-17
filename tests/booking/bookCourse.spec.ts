@@ -112,9 +112,9 @@ test('Book a course', async ({page}) => {
         // await reviewDetailsPage.clickGoToPayment()
     })
     // Step 12: Complete the payment form and submit, take a screenshot to confirm the success page
-    // await test.step('Payment', async () => {
-    //     await enrollmentPage.expectStepToBeVisible('Complete payment')
-    //     await paymentPage.fillPaymentForm(payment)
-    //     await paymentPage.proceedToPayment()
-    // })
+    await test.step('Payment', async () => {
+        await enrollmentPage.expectStepToBeVisible('Complete payment')
+        await paymentPage.fillPaymentForm(payment)
+        await paymentPage.proceedToPayment()
+    })
 });

@@ -49,7 +49,7 @@ export class CourseSearchPage extends BasePage {
         await this.industryDropdown.click();
         const menuId = await this.industryDropdown.getAttribute('aria-controls');
         const option = this.page
-            .locator(`#${menuId}`)  // шукаємо всередині div#home-course-industry-menu
+            .locator(`#${menuId}`)  // scoped to the dropdown menu container identified by aria-controls
             .getByRole('menuitemcheckbox', {name: courseData.courseIndustry, exact: true});
         await option.click();
         await this.industryDropdown.click();

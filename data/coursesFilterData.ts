@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://yrt-app-staging.vercel.app'
+export const BASE_URL = 'https://yrt-app-staging.vercel'
 export const COURSES_URL = `${BASE_URL}/courses`
 
 

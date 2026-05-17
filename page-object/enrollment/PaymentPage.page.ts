@@ -25,7 +25,7 @@ export class PaymentPage extends BasePage {
     /**
      * Fills in all payment form fields with the provided card details.
      * Expiry month and year are set via selectOption on native <select> elements.
-     * @param paymentData - Object containing card holder name, number, expiry, and CVN.????
+     * @param paymentData - Object containing card holder name, number, expiry, and CVN.
      */
     async fillPaymentForm(paymentData: Payment): Promise<void> {
         await this.cardHolder.fill(paymentData.cardHolder)

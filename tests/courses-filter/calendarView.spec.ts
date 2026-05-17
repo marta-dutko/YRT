@@ -43,22 +43,6 @@ test.describe('Calendar view', () => {
         })
     })
 
-    // test('Deep link — ?mode=calendar opens calendar view directly', async ({ page }) => {
-    //     const coursesPage = new CoursesFilterPage(page)
-    //
-    //     await test.step('Open URL with mode=calendar param', async () => {
-    //         await coursesPage.goTo(`${COURSES_URL}?mode=calendar`)
-    //     })
-    //
-    //     await test.step('Verify calendar sessions are rendered', async () => {
-    //         await coursesPage.assertCalendarHasSessions()
-    //     })
-    //
-    //     await test.step('Verify mode=calendar is still in the URL', async () => {
-    //         await coursesPage.assertURLParam('mode', 'calendar')
-    //     })
-    // })
-
     test('Calendar has sessions visible after switching to calendar view', async ({ page }) => {
         const coursesPage = new CoursesFilterPage(page)
 

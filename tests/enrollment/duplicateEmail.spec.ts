@@ -32,7 +32,7 @@ test('Existing email shows duplicate toast', async ({page}) => {
 
     // Step 3: Submit the registration form with an already-registered email and assert the warning toast
     await test.step('set user', async () => {
-        await registrationPage.fillRegistrationForm(existingUser) // вже існуючий
+        await registrationPage.fillRegistrationForm(existingUser) // pre-existing account
         await registrationPage.submitRegistration()
         await registrationPage.expectDuplicateEmailToast()
     })
